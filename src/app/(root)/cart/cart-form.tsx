@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useCart } from "@/hooks/use-cart";
-import { formatCurrency } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,11 +33,11 @@ export default function CartForm() {
 
   return (
     <>
-      <h1 className="py-4 h2-bold">Shopping Cart</h1>
+      <h1 className="py-4 h2-bold">Продукти</h1>
 
       {items.length === 0 ? (
         <div>
-          Cart is empty. <Link href="/">Go shopping</Link>
+          Количката е празна. <Link href="/">Отиди да я напълниш!</Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
@@ -45,9 +45,9 @@ export default function CartForm() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Item</TableHead>
-                  <TableHead className="text-center">Quantity</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead>Продукт</TableHead>
+                  <TableHead className="text-center">Количество</TableHead>
+                  <TableHead className="text-right">Цена</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -95,7 +95,10 @@ export default function CartForm() {
                       </Button>
                     </TableCell>
                     <TableCell className="text-right">
-                      {formatCurrency(item.price)}
+                      {formatPrice(item.price, {
+                        currency: "BGN",
+                        IntlFormat: "bg-BG",
+                      })}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -106,8 +109,11 @@ export default function CartForm() {
             <Card>
               <CardContent className="p-4 gap-4">
                 <div className="pb-3 text-xl">
-                  Subtotal ({items.reduce((a, c) => a + c.qty, 0)}):{" "}
-                  {formatCurrency(cartTotal)}
+                  Общо ({items.reduce((a, c) => a + c.qty, 0)}):{" "}
+                  {formatPrice(cartTotal, {
+                    currency: "BGN",
+                    IntlFormat: "bg-BG",
+                  })}
                 </div>
                 <Button
                   onClick={() =>
@@ -121,7 +127,7 @@ export default function CartForm() {
                   ) : (
                     <ArrowRight className="w-4 h-4" />
                   )}
-                  Proceed to Checkout
+                  Адрес за доставка
                 </Button>
               </CardContent>
             </Card>

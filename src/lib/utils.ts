@@ -41,21 +41,24 @@ export const round2 = (value: number | string) => {
   }
 };
 
-const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
-  currency: "USD",
-  style: "currency",
-  minimumFractionDigits: 2,
-});
+export function formatPrice(
+  price: number | string,
+  options: {
+    currency?: "USD" | "EUR" | "BGN";
+    notation?: Intl.NumberFormatOptions["notation"];
+    IntlFormat?: "en-US" | "bg-BG";
+  } = {}
+) {
+  const { currency = "BGN", notation = "standard" } = options;
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
-export const formatCurrency = (amount: number | string | null) => {
-  if (typeof amount === "number") {
-    return CURRENCY_FORMATTER.format(amount);
-  } else if (typeof amount === "string") {
-    return CURRENCY_FORMATTER.format(Number(amount));
-  } else {
-    return "NaN";
-  }
-};
+  return new Intl.NumberFormat(options.IntlFormat || "en-US", {
+    style: "currency",
+    currency,
+    notation,
+    maximumFractionDigits: 2,
+  }).format(numericPrice);
+}
 
 export function formatId(id: string) {
   return `..${id.substring(id.length - 6)}`;

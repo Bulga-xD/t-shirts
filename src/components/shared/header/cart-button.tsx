@@ -26,7 +26,6 @@ export default function CartButton() {
     <Button asChild variant="ghost">
       <Link href="/cart">
         <ShoppingCart className="" />
-        Cart
         {isMounted ? (
           <Badge variant="secondary" className="ml-1 rouded-full">
             {itemCount}
