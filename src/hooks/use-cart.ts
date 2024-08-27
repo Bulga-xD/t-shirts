@@ -1,8 +1,7 @@
+import axios from "axios";
 import { CartItem } from "@/types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { auth } from "@/auth";
-import { db } from "@/database/client";
 
 type CartState = {
   items: CartItem[];
@@ -10,7 +9,6 @@ type CartState = {
   decreaseItem: (productId: string) => void;
   clearCart: () => void;
   removeItem: (productId: string) => void;
-  syncCartWithDb: () => Promise<void>;
 };
 
 export const useCart = create<CartState>()(
@@ -37,9 +35,6 @@ export const useCart = create<CartState>()(
 
           const newState = { ...state, items: updatedItems };
 
-          // Sync with DB if user is authenticated
-          get().syncCartWithDb();
-
           return newState;
         }),
       decreaseItem: (productId) =>
@@ -64,7 +59,6 @@ export const useCart = create<CartState>()(
           const newState = { ...state, items: updatedItems };
 
           // Sync with DB if user is authenticated
-          get().syncCartWithDb();
 
           return newState;
         }),
@@ -73,7 +67,6 @@ export const useCart = create<CartState>()(
           const newState = { items: [] };
 
           // Sync with DB if user is authenticated
-          get().syncCartWithDb();
 
           return newState;
         }),
@@ -84,35 +77,9 @@ export const useCart = create<CartState>()(
           };
 
           // Sync with DB if user is authenticated
-          get().syncCartWithDb();
 
           return newState;
         }),
-      syncCartWithDb: async () => {
-        const session = await auth();
-        if (!session) return;
-
-        const userId = session.user.id;
-        if (!userId) return;
-
-        const state = get();
-
-        try {
-          await db.cart.upsert({
-            where: { userId },
-            update: { items: state.items },
-            create: {
-              userId,
-              items: state.items,
-              itemsPrice: calculateItemsPrice(state.items),
-              shippingPrice: calculateShippingPrice(state.items),
-              totalPrice: calculateTotalPrice(state.items),
-            },
-          });
-        } catch (error) {
-          console.error("Failed to sync cart with DB", error);
-        }
-      },
     }),
     {
       name: "cart-storage",
@@ -120,15 +87,3 @@ export const useCart = create<CartState>()(
     }
   )
 );
-
-function calculateItemsPrice(items: CartItem[]): number {
-  return items.reduce((total, item) => total + item.price * item.qty!, 0);
-}
-
-function calculateShippingPrice(items: CartItem[]): number {
-  return 10;
-}
-
-function calculateTotalPrice(items: CartItem[]): number {
-  return calculateItemsPrice(items) + calculateShippingPrice(items);
-}

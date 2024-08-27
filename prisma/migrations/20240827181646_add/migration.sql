@@ -72,7 +72,6 @@ CREATE TABLE "product" (
 CREATE TABLE "cart" (
     "id" TEXT NOT NULL,
     "userId" TEXT,
-    "sessionCartId" TEXT NOT NULL,
     "items" JSONB NOT NULL DEFAULT '[]',
     "itemsPrice" DECIMAL(65,30) NOT NULL,
     "shippingPrice" DECIMAL(65,30) NOT NULL,
