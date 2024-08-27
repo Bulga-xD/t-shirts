@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String    @id @default(uuid())
+    name          String?
+    email         String    @unique
+    role          String    @default("user")
+    password      String?
+    emailVerified DateTime?
+    image         String?
+    address       Json?
+    paymentMethod String?
+
+    accounts Account[]
+    sessions Session[]
+    orders   Order[]
+    carts    Cart[]
+
+    @@map("user")
+}
+
+model Account {
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refreshToken      String?
+    accessToken       String?
+    expiresAt         Int?
+    tokenType         String?
+    scope             String?
+    idToken           String?
+    sessionState      String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([provider, providerAccountId])
+    @@map("account")
+}
+
+model Session {
+    sessionToken String   @id
+    userId       String
+    expires      DateTime
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("session")
+}
+
+model VerificationToken {
+    identifier String
+    token      String
+    expires    DateTime
+
+    @@id([identifier, token])
+    @@map("verificationToken")
+}
+
+model Product {
+    id          String   @id @default(uuid())
+    name        String
+    slug        String   @unique
+    category    String
+    images      String[]
+    brand       String
+    description String
+    stock       Int
+    price       Decimal  @default(0.00)
+    rating      Decimal  @default(0.00)
+    numReviews  Int      @default(0)
+    isFeatured  Boolean  @default(false)
+    banner      String?
+    createdAt   DateTime @default(now())
+
+    orderItems OrderItem[]
+
+    @@map("product")
+}
+
+model Cart {
+    id            String   @id @default(uuid())
+    userId        String?
+    sessionCartId String
+    items         Json     @default("[]")
+    itemsPrice    Decimal
+    shippingPrice Decimal
+    totalPrice    Decimal
+    createdAt     DateTime @default(now())
+
+    user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("cart")
+}
+
+model Order {
+    id              String    @id @default(uuid())
+    userId          String
+    shippingAddress Json
+    paymentMethod   String
+    paymentResult   Json?
+    itemsPrice      Decimal
+    shippingPrice   Decimal
+    totalPrice      Decimal
+    isPaid          Boolean   @default(false)
+    paidAt          DateTime?
+    isDelivered     Boolean   @default(false)
+    deliveredAt     DateTime?
+    createdAt       DateTime  @default(now())
+
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    orderItems OrderItem[]
+
+    @@map("order")
+}
+
+model OrderItem {
+    orderId   String
+    productId String
+    qty       Int
+    price     Decimal
+    name      String
+    slug      String
+    image     String
+
+    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    @@id([orderId, productId])
+    @@map("orderItems")
+}
