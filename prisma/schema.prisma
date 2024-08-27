@@ -93,8 +93,7 @@ model Product {
 
 model Cart {
     id            String   @id @default(uuid())
-    userId        String?
-    sessionCartId String
+    userId        String?  @unique
     items         Json     @default("[]")
     itemsPrice    Decimal
     shippingPrice Decimal
