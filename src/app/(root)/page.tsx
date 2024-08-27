@@ -1,12 +1,21 @@
+import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
-import { getLatestProducts } from "@/lib/actions/product.actions";
+import {
+  getFeaturedProducts,
+  getLatestProducts,
+} from "@/lib/actions/product.actions";
 
 export default async function Home() {
   const latestProducts = await getLatestProducts();
-
+  const featuredProducts = await getFeaturedProducts();
   return (
-    <div className="space-y-8">
-      <ProductList data={latestProducts} title="Latest Products" />
+    <div>
+      {featuredProducts.length > 0 && (
+        <ProductCarousel data={featuredProducts} />
+      )}
+      <div className="space-y-8">
+        <ProductList title="Нови попълнения" data={latestProducts} />
+      </div>
     </div>
   );
 }
