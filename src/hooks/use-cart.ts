@@ -17,6 +17,7 @@ export const useCart = create<CartState>()(
       addItem: (product) =>
         set((state) => {
           //
+
           const existingItemIndex = state.items.findIndex(
             (item) => item.productId === product.productId
           );
@@ -26,7 +27,7 @@ export const useCart = create<CartState>()(
             const existingItem = state.items[existingItemIndex];
             const updateItem = {
               ...existingItem,
-              quantity: existingItem.qty! + 1,
+              qty: existingItem.qty! + 1,
             };
             updatedItems[existingItemIndex] = updateItem;
           } else {
@@ -49,7 +50,7 @@ export const useCart = create<CartState>()(
           } else {
             const updatedItem = {
               ...existingItem,
-              quantity: existingItem?.qty! - 1,
+              qty: existingItem?.qty! - 1,
             };
             updatedItems[existingItemIndex] = updatedItem;
           }

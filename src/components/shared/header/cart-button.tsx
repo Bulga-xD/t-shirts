@@ -21,7 +21,6 @@ export default function CartButton() {
       typeof product.qty === "number" && !isNaN(product.qty) ? product.qty : 0;
     return total + qty;
   }, 0);
-  console.log(itemCount);
 
   return (
     <Button asChild variant="ghost">
