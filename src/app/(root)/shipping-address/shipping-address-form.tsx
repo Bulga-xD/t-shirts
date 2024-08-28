@@ -57,7 +57,7 @@ export default function ShippingAddressForm({
   };
 
   return (
-    <>
+    <section className="max-w-7xl m-auto p-5 md:px-10">
       <CheckoutSteps current={1} />
       <div className="max-w-md mx-auto space-y-4">
         <h1 className="h2-bold mt-4">Адрес за доставка</h1>
@@ -161,6 +161,6 @@ export default function ShippingAddressForm({
           </form>
         </Form>
       </div>
-    </>
+    </section>
   );
 }

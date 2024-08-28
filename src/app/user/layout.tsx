@@ -14,7 +14,7 @@ export default async function UserDashboardLayout({
     <>
       <div className="flex flex-col">
         <div className="border-b">
-          <div className="flex h-16 items-center px-4">
+          <div className="flex h-16 items-center px-4 max-w-7xl m-auto p-5 md:px-10">
             <Link href="/" className="w-36">
               <Image
                 src="/assets/icons/logo.svg"

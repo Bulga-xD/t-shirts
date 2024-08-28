@@ -34,7 +34,7 @@ const ProductDetails = async ({
   if (!product) notFound();
   return (
     <>
-      <section>
+      <section className="max-w-7xl m-auto p-5 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-5">
           <div className="col-span-2">
             <ProductImages images={product.images!} />

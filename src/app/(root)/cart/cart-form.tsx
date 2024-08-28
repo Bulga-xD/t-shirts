@@ -32,7 +32,7 @@ export default function CartForm() {
   );
 
   return (
-    <>
+    <section className="max-w-7xl m-auto p-5 md:px-10">
       <h1 className="py-4 h2-bold">Продукти</h1>
 
       {items.length === 0 ? (
@@ -134,6 +134,6 @@ export default function CartForm() {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }

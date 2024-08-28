@@ -18,11 +18,11 @@ export default async function PlaceOrderPage() {
   if (!user.paymentMethod) redirect("/payment-method");
 
   return (
-    <>
+    <section className="max-w-7xl m-auto p-5 md:px-10">
       <CheckoutSteps current={3} />
       <h1 className="py-4 text-2xl">Направи поръчка</h1>
 
       <OrderCart user={user} />
-    </>
+    </section>
   );
 }

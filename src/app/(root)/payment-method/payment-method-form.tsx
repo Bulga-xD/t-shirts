@@ -62,7 +62,7 @@ export default function PaymentMethodForm({
   }
 
   return (
-    <>
+    <section className="max-w-7xl m-auto p-5 md:px-10">
       <CheckoutSteps current={2} />
       <div className="max-w-md mx-auto">
         <Form {...form}>
@@ -124,6 +124,6 @@ export default function PaymentMethodForm({
           </form>
         </Form>
       </div>
-    </>
+    </section>
   );
 }
