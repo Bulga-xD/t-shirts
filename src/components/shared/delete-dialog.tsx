@@ -34,13 +34,13 @@ export default function DeleteDialog({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Напълно ли сте сигурни?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone.
+            Това действие не може да бъде отменено.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Отказ</AlertDialogCancel>
 
           <Button
             variant="destructive"
@@ -63,7 +63,7 @@ export default function DeleteDialog({
               })
             }
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? "Изтриване..." : "Изтрий"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

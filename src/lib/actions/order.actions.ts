@@ -9,7 +9,7 @@ import { CartItem, PaymentResult } from "@/types";
 import { PAGE_SIZE } from "../constants";
 import { db } from "@/database/client";
 import { getMyCart } from "./cart.actions";
-import { Decimal } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export async function getOrderById(orderId: string) {
   return await db.order.findFirst({
@@ -221,4 +221,47 @@ export const getOrderSummary = async () => {
     salesData,
     latestOrders,
   };
+};
+
+export const getAllOrders = async ({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) => {
+  const data = await db.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+    skip: (page - 1) * limit,
+    include: {
+      user: true,
+    },
+  });
+
+  const dataCount = await db.order.count();
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
+};
+
+export const deleteOrder = async (orderId: string) => {
+  try {
+    await db.order.delete({
+      where: {
+        id: orderId,
+      },
+    });
+    revalidatePath("/admin/orders");
+    return {
+      success: true,
+      message: "Поръчката е изтрита успешно",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
 };
