@@ -134,3 +134,16 @@ export const updateProductSchema = z.object({
   isFeatured: z.boolean(),
   banner: z.string().optional().nullable(),
 });
+
+export const insertReviewSchema = z.object({
+  userId: z.string().uuid("Invalid user ID"),
+  productId: z.string().uuid("Invalid product ID"),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, "Rating must be at least 1")
+    .max(5, "Rating must be at most 5"),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  isVerifiedPurchase: z.boolean().optional().default(true),
+});

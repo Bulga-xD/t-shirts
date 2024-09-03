@@ -12,7 +12,6 @@ import { SearchIcon } from "lucide-react";
 
 export default async function Search() {
   const categories = await getAllCategories();
-  console.log(categories);
 
   return (
     <form action="/search" method="GET">

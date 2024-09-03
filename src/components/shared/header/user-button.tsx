@@ -15,7 +15,7 @@ export default async function UserButton() {
   if (!session || !session.user)
     return (
       <Link href="/api/auth/signin">
-        <Button>Sign In</Button>
+        <Button>Влез</Button>
       </Link>
     );
   return (
@@ -56,14 +56,6 @@ export default async function UserButton() {
             <DropdownMenuItem>
               <Link className="w-full" href="/admin/overview">
                 Админ
-              </Link>
-            </DropdownMenuItem>
-          )}
-
-          {session.user.role === "admin" && (
-            <DropdownMenuItem>
-              <Link className="w-full" href="/admin/overview">
-                Admin
               </Link>
             </DropdownMenuItem>
           )}

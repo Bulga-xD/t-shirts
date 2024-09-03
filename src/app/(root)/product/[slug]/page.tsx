@@ -8,6 +8,9 @@ import { getProductBySlug } from "@/lib/actions/product.actions";
 import { APP_NAME } from "@/lib/constants";
 import AddToCart from "@/components/shared/product/add-to-cart";
 import { round2 } from "@/lib/utils";
+import ReviewList from "./review-list";
+import { auth } from "@/auth";
+import Rating from "@/components/shared/product/rating";
 
 export async function generateMetadata({
   params,
@@ -32,6 +35,7 @@ const ProductDetails = async ({
 }) => {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
+  const session = await auth();
   return (
     <>
       <section className="max-w-7xl m-auto p-5 md:px-10">
@@ -100,6 +104,14 @@ const ProductDetails = async ({
             </Card>
           </div>
         </div>
+      </section>
+      <section className="max-w-7xl mx-auto mt-10 p-5 md:px-10">
+        <h2 className="h2-bold  mb-5">Отзиви на потребителите</h2>
+        <ReviewList
+          productId={product.id}
+          productSlug={product.slug}
+          userId={session?.user.id!}
+        />
       </section>
     </>
   );

@@ -29,6 +29,7 @@ model User {
     sessions Session[]
     orders   Order[]
     carts    Cart[]
+    Review   Review[]
 
     @@index([email], name: "user_email_idx") // Retaining unique index on email
     @@map("user")
@@ -89,6 +90,7 @@ model Product {
     createdAt   DateTime @default(now())
 
     orderItems OrderItem[]
+    Review     Review[]
 
     @@map("product")
 }
@@ -142,4 +144,21 @@ model OrderItem {
 
     @@id([orderId, productId])
     @@map("orderItems")
+}
+
+model Review {
+    id                 String   @id @default(uuid())
+    userId             String
+    productId          String
+    rating             Int
+    title              String
+    description        String
+    isVerifiedPurchase Boolean  @default(true)
+    createdAt          DateTime @default(now())
+
+    // Relations
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    @@map("review")
 }

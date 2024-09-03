@@ -144,8 +144,6 @@ export const createProduct = async (
   data: z.infer<typeof insertProductSchema>
 ) => {
   try {
-    console.log(data);
-
     const product = insertProductSchema.parse(data);
     await db.product.create({
       data: {

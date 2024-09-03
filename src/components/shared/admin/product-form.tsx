@@ -51,8 +51,6 @@ export default function ProductForm({
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof insertProductSchema>) {
-    console.log("submitting", values);
-
     if (type === "Create") {
       const res = await createProduct(values);
       if (!res.success) {
@@ -86,9 +84,6 @@ export default function ProductForm({
   const images = form.watch("images");
   const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
-
-  console.log(form.formState.errors);
-  console.log(form.formState.isSubmitting);
 
   return (
     <Form {...form}>
