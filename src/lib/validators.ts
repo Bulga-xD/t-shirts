@@ -88,3 +88,44 @@ export const updateProfileSchema = z.object({
   name: z.string().min(3, "Името трябва да е поне 3 символа"),
   email: z.string().email().min(3, "Имейлът трябва да е поне 3 символа"),
 });
+
+export const insertProductSchema = z.object({
+  name: z.string().min(3, "Името трябва да е поне 3 символа"),
+  slug: z.string().min(1, "Слъгът е задължителен"),
+  category: z.string().min(3, "Категорията трябва да е поне 3 символа"),
+  images: z.array(z.string()).min(1, "Моля добавете поне една снимка"),
+  brand: z.string().min(3, "Марката трябва да е поне 3 символа"),
+  description: z.string().min(10, "Описанието трябва да е поне 10 символа"),
+  stock: z.coerce
+    .number()
+    .int()
+    .nonnegative()
+    .min(0, "Наличността трябва да е поне 0"),
+  price: z.coerce
+    .number()
+    .nonnegative()
+    .min(0.01, "Цената трябва да е поне 0.01"),
+  isFeatured: z.boolean(),
+  banner: z.string().optional().nullable(),
+});
+
+export const updateProductSchema = z.object({
+  id: z.string(),
+  name: z.string().min(3, "Името трябва да е поне 3 символа"),
+  slug: z.string().min(1, "Слъгът е задължителен"),
+  category: z.string().min(3, "Категорията трябва да е поне 3 символа"),
+  images: z.array(z.string()).min(1, "Моля добавете поне една снимка"),
+  brand: z.string().min(3, "Марката трябва да е поне 3 символа"),
+  description: z.string().min(10, "Описанието трябва да е поне 10 символа"),
+  stock: z.coerce
+    .number()
+    .int()
+    .nonnegative()
+    .min(0, "Наличността трябва да е поне 0"),
+  price: z.coerce
+    .number()
+    .nonnegative()
+    .min(0.01, "Цената трябва да е поне 0.01"),
+  isFeatured: z.boolean(),
+  banner: z.string().optional().nullable(),
+});
