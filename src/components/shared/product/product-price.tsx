@@ -12,11 +12,13 @@ const ProductPrice = ({
     ? stringValue.split(".")
     : [stringValue, ""];
   return (
-    <p className={cn("text-2xl", className)}>
-      <span className="text-xs align-super">$</span>
-      {intValue}
-      <span className="text-xs align-super">{floatValue}</span>
-    </p>
+    <div className="flex items-center gap-1">
+      <p className={cn("text-2xl flex", className)}>
+        {intValue}
+        <span className="text-xs align-super">{floatValue}</span>
+      </p>
+      <span>лв.</span>
+    </div>
   );
 };
 

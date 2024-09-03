@@ -13,6 +13,7 @@ import { MenuIcon } from "lucide-react";
 import { getAllCategories } from "@/lib/actions/product.actions";
 import Link from "next/link";
 import Image from "next/image";
+import Search from "./search";
 
 interface Category {
   category: string;
@@ -69,7 +70,13 @@ const Header = async () => {
             {APP_NAME}
           </Link>
         </div>
+        <div className="hidden md:block">
+          <Search />
+        </div>
         <Menu />
+      </div>
+      <div className="md:hidden block   px-5 pb-2">
+        <Search />
       </div>
     </header>
   );
