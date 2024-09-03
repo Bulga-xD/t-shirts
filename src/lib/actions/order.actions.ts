@@ -3,15 +3,13 @@
 import { auth } from "@/auth";
 import { getUserById } from "./user.actions";
 import { redirect } from "next/navigation";
-import { insertOrderSchema } from "../validators";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { formatError } from "../utils";
-import { paypal } from "../paypal";
-import { revalidatePath } from "next/cache";
 import { CartItem, PaymentResult } from "@/types";
 import { PAGE_SIZE } from "../constants";
 import { db } from "@/database/client";
 import { getMyCart } from "./cart.actions";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export async function getOrderById(orderId: string) {
   return await db.order.findFirst({
@@ -163,4 +161,64 @@ export const updateOrderToPaid = async ({
       },
     });
   });
+};
+
+export const getOrderSummary = async () => {
+  const ordersCount = await db.order.count();
+  const productsCount = await db.product.count();
+  const usersCount = await db.user.count();
+  const ordersPrice = await db.order.aggregate({
+    _sum: {
+      totalPrice: true,
+    },
+  });
+
+  const salesDataRaw = await db.order.groupBy({
+    by: ["createdAt"],
+    _sum: {
+      totalPrice: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  // Transform the sales data to match the expected format
+  const salesData = salesDataRaw.map((entry) => {
+    const { createdAt, _sum } = entry;
+
+    // Format the date to MM/YY
+    const months = new Date(createdAt).toLocaleDateString("en-US", {
+      month: "2-digit",
+      year: "2-digit",
+    });
+
+    // Convert Decimal to number, handle null cases
+    const totalSales = _sum.totalPrice ? Number(_sum.totalPrice) : 0;
+
+    return { months, totalSales };
+  });
+
+  const latestOrders = await db.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    take: 6,
+  });
+
+  return {
+    ordersCount,
+    productsCount,
+    usersCount,
+    ordersPrice,
+    salesData,
+    latestOrders,
+  };
 };

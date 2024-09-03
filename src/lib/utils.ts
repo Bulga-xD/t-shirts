@@ -42,13 +42,14 @@ export const round2 = (value: number | string) => {
 };
 
 export function formatPrice(
-  price: number | string,
+  price: number | string | null,
   options: {
     currency?: "USD" | "EUR" | "BGN";
     notation?: Intl.NumberFormatOptions["notation"];
     IntlFormat?: "en-US" | "bg-BG";
   } = {}
 ) {
+  if (price === null) return 0;
   const { currency = "BGN", notation = "standard" } = options;
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
