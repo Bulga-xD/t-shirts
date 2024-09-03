@@ -265,3 +265,36 @@ export const deleteOrder = async (orderId: string) => {
     return { success: false, message: formatError(error) };
   }
 };
+
+export async function updateOrderToPaidByCOD(orderId: string) {
+  try {
+    await updateOrderToPaid({ orderId });
+    revalidatePath(`/order/${orderId}`);
+    return { success: true, message: "Order paid successfully" };
+  } catch (err) {
+    return { success: false, message: formatError(err) };
+  }
+}
+
+export async function deliverOrder(orderId: string) {
+  try {
+    const order = await db.order.findUnique({
+      where: { id: orderId },
+    });
+    if (!order) throw new Error("Поръчката не е намерена");
+    if (!order.isPaid) throw new Error("Поръчката не е платена");
+
+    await db.order.update({
+      where: { id: orderId },
+      data: {
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+    });
+
+    revalidatePath(`/order/${orderId}`);
+    return { success: true, message: "Поръчката е доставена успешно" };
+  } catch (err) {
+    return { success: false, message: formatError(err) };
+  }
+}
