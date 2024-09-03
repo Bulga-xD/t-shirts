@@ -23,7 +23,7 @@ const links = [
     href: "/admin/users",
   },
   {
-    title: "настройки",
+    title: "Настройки",
     href: "/admin/settings",
   },
 ];

@@ -103,9 +103,9 @@ export default function ProductForm({
             name="name"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Име</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter product name" {...field} />
+                  <Input placeholder="Въведете име на продукта" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -118,11 +118,14 @@ export default function ProductForm({
             name="slug"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Slug</FormLabel>
+                <FormLabel>Слъг</FormLabel>
 
                 <FormControl>
                   <div className="relative">
-                    <Input placeholder="Enter product slug" {...field} />
+                    <Input
+                      placeholder="Въведете уникален слъг за продукта"
+                      {...field}
+                    />
                     <button
                       type="button"
                       onClick={() => {
@@ -132,7 +135,7 @@ export default function ProductForm({
                         );
                       }}
                     >
-                      Generate
+                      Генерирай слъг
                     </button>
                   </div>
                 </FormControl>
@@ -148,9 +151,9 @@ export default function ProductForm({
             name="category"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
+                <FormLabel>Категория</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter category" {...field} />
+                  <Input placeholder="Въведете категория" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -162,9 +165,9 @@ export default function ProductForm({
             name="brand"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Brand</FormLabel>
+                <FormLabel>Марка</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter product brand" {...field} />
+                  <Input placeholder="Въведете марка" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -178,11 +181,11 @@ export default function ProductForm({
             name="price"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Price</FormLabel>
+                <FormLabel>Цена</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="Enter product price"
+                    placeholder="Въведете цан на продукта"
                     {...field}
                   />
                 </FormControl>
@@ -195,11 +198,11 @@ export default function ProductForm({
             name="stock"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Stock</FormLabel>
+                <FormLabel>Наличност</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="Enter product stock"
+                    placeholder="Въведете наличност на продукта"
                     {...field}
                   />
                 </FormControl>
@@ -215,7 +218,7 @@ export default function ProductForm({
             name="images"
             render={() => (
               <FormItem className="w-full">
-                <FormLabel>Images</FormLabel>
+                <FormLabel>Изображения</FormLabel>
                 <Card>
                   <CardContent className="space-y-2 mt-2 min-h-48">
                     <div className="flex-start space-x-2">
@@ -253,7 +256,7 @@ export default function ProductForm({
           />
         </div>
         <div>
-          Featured Product
+          Продукт на фокус
           <Card>
             <CardContent className="space-y-2 mt-2  ">
               <FormField
@@ -267,7 +270,7 @@ export default function ProductForm({
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel>Is Featured?</FormLabel>
+                    <FormLabel>На фокус?</FormLabel>
                   </FormItem>
                 )}
               />
@@ -303,10 +306,10 @@ export default function ProductForm({
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Описание</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Enter product description"
+                    placeholder="Въведете описание на продукта"
                     className="resize-none"
                     {...field}
                   />
@@ -323,7 +326,9 @@ export default function ProductForm({
             disabled={form.formState.isSubmitting}
             className="button col-span-2 w-full"
           >
-            {form.formState.isSubmitting ? "Submitting..." : `${type} Product `}
+            {form.formState.isSubmitting
+              ? "Създаване..."
+              : `${type === "Create" ? "Добави" : "Промени"} Продукт `}
           </Button>
         </div>
       </form>

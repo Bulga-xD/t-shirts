@@ -74,7 +74,9 @@ export default async function AdminProductsPage({
                 <TableCell>{Number(product.rating)}</TableCell>
                 <TableCell className="flex gap-1">
                   <Button asChild variant="outline" size="sm">
-                    <Link href={`/admin/products/${product.id}`}>Edit</Link>
+                    <Link href={`/admin/products/${product.id}`}>
+                      Редактирай
+                    </Link>
                   </Button>
                   <DeleteDialog id={product.id} action={deleteProduct} />
                 </TableCell>

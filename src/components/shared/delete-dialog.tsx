@@ -29,7 +29,7 @@ export default function DeleteDialog({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button size="sm" variant="destructive">
-          Delete
+          Изтрий
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

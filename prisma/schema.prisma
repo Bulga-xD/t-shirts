@@ -14,21 +14,23 @@ datasource db {
 }
 
 model User {
-    id            String    @id @default(uuid())
+    id            String    @id @default(uuid()) @map("id")
     name          String?
-    email         String    @unique
-    role          String    @default("user")
+    email         String    @unique @map("email")
+    role          String    @default("user") @map("role")
     password      String?
-    emailVerified DateTime?
-    image         String?
-    address       Json?
-    paymentMethod String?
+    emailVerified DateTime? @map("emailVerified")
+    image         String?   @map("image")
+    address       Json?     @map("address")
+    paymentMethod String?   @map("paymentMethod")
+    createdAt     DateTime  @default(now()) @map("createdAt")
 
     accounts Account[]
     sessions Session[]
     orders   Order[]
     carts    Cart[]
 
+    @@index([email], name: "user_email_idx") // Retaining unique index on email
     @@map("user")
 }
 

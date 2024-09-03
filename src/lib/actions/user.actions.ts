@@ -15,6 +15,7 @@ import { db } from "@/database/client";
 import { ShippingAddress } from "@/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { PAGE_SIZE } from "../constants";
 
 export async function signUp(prevState: unknown, formData: FormData) {
   try {
@@ -200,5 +201,44 @@ export async function updateProfile(user: { name: string; email: string }) {
       success: false,
       message: formatError(error),
     };
+  }
+}
+
+export async function getAllUsers({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  const data = await db.user.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+  const dataCount = await db.user.count();
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
+}
+
+export async function deleteUser(id: string) {
+  try {
+    // await db.delete(users).where(eq(users.id, id))
+    await db.user.delete({
+      where: {
+        id,
+      },
+    });
+    revalidatePath("/admin/users");
+    return {
+      success: true,
+      message: "Успешно изтрит потребител",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }
