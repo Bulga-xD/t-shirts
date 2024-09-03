@@ -8,6 +8,7 @@ import {
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
+  updateUserSchema,
 } from "../validators";
 import { formatError } from "../utils";
 import { hashSync } from "bcrypt-ts-edge";
@@ -237,6 +238,27 @@ export async function deleteUser(id: string) {
     return {
       success: true,
       message: "Успешно изтрит потребител",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function updateUser(user: z.infer<typeof updateUserSchema>) {
+  try {
+    await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
+    revalidatePath("/admin/users");
+    return {
+      success: true,
+      message: "User updated successfully",
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

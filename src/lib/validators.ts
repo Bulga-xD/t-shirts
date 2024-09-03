@@ -89,6 +89,11 @@ export const updateProfileSchema = z.object({
   email: z.string().email().min(3, "Имейлът трябва да е поне 3 символа"),
 });
 
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().min(1, "ИД-то е задължително"),
+  role: z.string().min(1, "Ролята е задължителна"),
+});
+
 export const insertProductSchema = z.object({
   name: z.string().min(3, "Името трябва да е поне 3 символа"),
   slug: z.string().min(1, "Слъгът е задължителен"),
