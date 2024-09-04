@@ -10,6 +10,7 @@ import { PAGE_SIZE } from "../constants";
 import { db } from "@/database/client";
 import { getMyCart } from "./cart.actions";
 import { revalidatePath } from "next/cache";
+import { OrderItem } from "@prisma/client";
 
 export async function getOrderById(orderId: string) {
   return await db.order.findFirst({
@@ -63,6 +64,7 @@ export async function getMyOrders({
 
 // CREATE
 export const createOrder = async (
+  items: CartItem[],
   itemsPrice: number,
   shippingPrice: number,
   totalPrice: number
@@ -70,8 +72,6 @@ export const createOrder = async (
   try {
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
-    const cart = await getMyCart();
-    if (!cart || !cart.items) throw new Error("Cart is empty");
 
     const user = await getUserById(session.user.id!);
     if (!user.address) redirect("/shipping-address");
@@ -90,33 +90,29 @@ export const createOrder = async (
       const newOrder = await tx.order.create({
         data: orderData,
       });
-      const items = cart.items as CartItem[];
 
       for (const item of items) {
+        console.log(item);
+
         await tx.orderItem.create({
           data: {
-            ...item,
+            productId: item.productId,
+            name: item.name,
+            slug: item.slug,
             price: parseFloat(item.price.toFixed(2)),
+            qty: item.qty,
+            image: item.image,
             orderId: newOrder.id,
           },
         });
       }
-
-      await tx.cart.update({
-        where: { id: cart.id },
-        data: {
-          items: [],
-          totalPrice: 0,
-          shippingPrice: 0,
-          itemsPrice: 0,
-        },
-      });
 
       return newOrder.id;
     });
 
     if (!insertedOrder) throw new Error("Order not created");
     redirect(`/order/${insertedOrder}`);
+    return { success: true, message: "Успешно завършена порчъка" };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;

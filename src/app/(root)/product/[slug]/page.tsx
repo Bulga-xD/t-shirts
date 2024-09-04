@@ -102,7 +102,7 @@ const ProductDetails = async ({
                         productId: product.id,
                         name: product.name,
                         slug: product.slug,
-                        price: round2(product.price.toNumber()),
+                        price: round2(Number(product.price)),
                         qty: 1,
                         image: product.images![0],
                         size: size || "M",
@@ -116,7 +116,7 @@ const ProductDetails = async ({
         </div>
       </section>
       <section className="max-w-7xl mx-auto mt-10 p-5 md:px-10">
-        <h2 className="h2-bold mb-5">User Reviews</h2>
+        <h2 className="h2-bold mb-5">Потребителски отзиви</h2>
         <ReviewList
           productId={product.id}
           productSlug={product.slug}

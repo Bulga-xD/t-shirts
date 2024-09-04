@@ -29,7 +29,7 @@ const Header = async () => {
   }
 
   return (
-    <header className="w-full border-b sticky top-0 z-50 bg-white">
+    <header className="w-full border-b sticky top-0 z-50 bg-white dark:bg-black">
       <div className="wrapper flex-between max-w-7xl m-auto p-5 md:px-10">
         <div className="flex-start gap-2">
           <Drawer direction="left">

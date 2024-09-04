@@ -8,16 +8,26 @@ import { z } from "zod";
 import { insertProductSchema, updateProductSchema } from "../validators";
 
 export const getLatestProducts = async () => {
-  return db.product.findMany({
+  const products = await db.product.findMany({
     orderBy: {
       createdAt: "desc",
     },
     take: 4,
   });
+
+  const formattedProducts = products.map((product) => {
+    return {
+      ...product,
+      price: Number(product.price),
+      rating: Number(product.rating),
+    };
+  });
+
+  return formattedProducts;
 };
 
 export const getProductBySlug = async (slug: string) => {
-  return db.product.findUnique({
+  return await db.product.findUnique({
     where: {
       slug,
     },

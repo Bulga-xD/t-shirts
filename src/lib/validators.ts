@@ -35,6 +35,7 @@ export const cartItemSchema = z.object({
       (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(value)),
       "Price must have exactly two decimal places (e.g., 49.99)"
     ),
+  size: z.string().optional(),
 });
 
 export const shippingAddressSchema = z.object({

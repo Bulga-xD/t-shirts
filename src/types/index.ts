@@ -32,9 +32,7 @@ export type Product = {
 
 // CART
 export type Cart = CartModel;
-export type CartItem = z.infer<typeof cartItemSchema> & {
-  size?: string;
-};
+export type CartItem = z.infer<typeof cartItemSchema>;
 
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
 export type PaymentResult = z.infer<typeof paymentResultSchema>;

@@ -15,6 +15,7 @@ import { User } from "@prisma/client";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import PlaceOrderForm from "./place-order-form";
 
 type Address = {
   fullName: string;
@@ -72,6 +73,7 @@ export const OrderCart = ({ user }: { user: User }) => {
                 <TableRow>
                   <TableHead>Продукт</TableHead>
                   <TableHead>Количество</TableHead>
+                  <TableHead>Размер</TableHead>
                   <TableHead>Цена</TableHead>
                 </TableRow>
               </TableHeader>
@@ -94,6 +96,9 @@ export const OrderCart = ({ user }: { user: User }) => {
                     </TableCell>
                     <TableCell>
                       <span className="px-2">{item.qty}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="px-2">{item.size}</span>
                     </TableCell>
                     <TableCell className="text-right">${item.price}</TableCell>
                   </TableRow>
@@ -136,7 +141,12 @@ export const OrderCart = ({ user }: { user: User }) => {
                 })}
               </div>
             </div>
-            {/* <PlaceOrderForm /> */}
+            <PlaceOrderForm
+              items={items}
+              itemsPrice={itemsPrice}
+              shippingPrice={shippingPrice}
+              totalPrice={totalPrice}
+            />
           </CardContent>
         </Card>
       </div>
