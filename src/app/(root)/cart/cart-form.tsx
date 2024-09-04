@@ -47,7 +47,8 @@ export default function CartForm() {
                 <TableRow>
                   <TableHead>Продукт</TableHead>
                   <TableHead className="text-center">Количество</TableHead>
-                  <TableHead className="text-right">Цена</TableHead>
+                  <TableHead className="text-center">Размер</TableHead>
+                  <TableHead className="text-center">Цена</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -94,6 +95,7 @@ export default function CartForm() {
                         )}
                       </Button>
                     </TableCell>
+                    <TableCell className="text-center">{item.size}</TableCell>
                     <TableCell className="text-right">
                       {formatPrice(item.price, {
                         currency: "BGN",

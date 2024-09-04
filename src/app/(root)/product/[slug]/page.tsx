@@ -11,6 +11,7 @@ import { round2 } from "@/lib/utils";
 import ReviewList from "./review-list";
 import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
+import SizeSelector from "@/components/shared/product/select-size";
 
 export async function generateMetadata({
   params,
@@ -29,6 +30,7 @@ export async function generateMetadata({
 
 const ProductDetails = async ({
   params: { slug },
+  searchParams: { page, color, size }, // Destructure size from searchParams
 }: {
   params: { slug: string };
   searchParams: { page: string; color: string; size: string };
@@ -36,6 +38,7 @@ const ProductDetails = async ({
   const product = await getProductBySlug(slug);
   if (!product) notFound();
   const session = await auth();
+
   return (
     <>
       <section className="max-w-7xl m-auto p-5 md:px-10">
@@ -44,15 +47,16 @@ const ProductDetails = async ({
             <ProductImages images={product.images!} />
           </div>
 
-          <div className="col-span-2 flex flex-col w-full  gap-8 p-5">
+          <div className="col-span-2 flex flex-col w-full gap-8 p-5">
             <div className="flex flex-col gap-6">
-              <p className="p-medium-16 rounded-full bg-grey-500/10   text-grey-500">
+              <p className="p-medium-16 rounded-full bg-grey-500/10 text-grey-500">
                 {product.brand} {product.category}
               </p>
               <h1 className="h3-bold">{product.name}</h1>
-              <p>
-                {product.rating.toNumber()} of {product.numReviews} reviews
-              </p>
+              <Rating
+                value={Number(product.rating)}
+                caption={`${product.numReviews} reviews`}
+              />
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
@@ -63,6 +67,11 @@ const ProductDetails = async ({
                 </div>
               </div>
             </div>
+
+            <section>
+              <h3 className="text-xl">Size</h3>
+              <SizeSelector currentSize={size} />
+            </section>
 
             <div>
               <p>Description:</p>
@@ -87,7 +96,7 @@ const ProductDetails = async ({
                   )}
                 </div>
                 {product.stock !== 0 && (
-                  <div className=" flex-center">
+                  <div className="flex-center">
                     <AddToCart
                       item={{
                         productId: product.id,
@@ -96,6 +105,7 @@ const ProductDetails = async ({
                         price: round2(product.price.toNumber()),
                         qty: 1,
                         image: product.images![0],
+                        size: size || "M",
                       }}
                     />
                   </div>
@@ -106,7 +116,7 @@ const ProductDetails = async ({
         </div>
       </section>
       <section className="max-w-7xl mx-auto mt-10 p-5 md:px-10">
-        <h2 className="h2-bold  mb-5">Отзиви на потребителите</h2>
+        <h2 className="h2-bold mb-5">User Reviews</h2>
         <ReviewList
           productId={product.id}
           productSlug={product.slug}

@@ -22,10 +22,6 @@ const links = [
     title: "Потребители",
     href: "/admin/users",
   },
-  {
-    title: "Настройки",
-    href: "/admin/settings",
-  },
 ];
 
 export default function MainNav({

@@ -27,7 +27,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative md:h-dvh mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
+    <section className="relative md:h-[850px] mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
       <AnimatePresence>
         <motion.div
           key={currentImage}
