@@ -69,7 +69,7 @@ export default function OrderDetailsForm({
           })
         }
       >
-        {isPending ? "processing..." : "Mark As Paid"}
+        {isPending ? "Обработване..." : "Платено"}
       </Button>
     );
   };
@@ -91,7 +91,7 @@ export default function OrderDetailsForm({
           })
         }
       >
-        {isPending ? "processing..." : "Mark As Delivered"}
+        {isPending ? "Обработване..." : "Доставено"}
       </Button>
     );
   };
