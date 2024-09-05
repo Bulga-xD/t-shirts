@@ -123,7 +123,7 @@ export default async function DashboardPage() {
 
                     <TableCell>
                       <Link href={`/order/${order.id}`}>
-                        <span className="px-2">Details</span>
+                        <span className="px-2">Детайли</span>
                       </Link>
                     </TableCell>
                   </TableRow>
