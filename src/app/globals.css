@@ -103,4 +103,18 @@
   .h3-bold {
     @apply font-bold text-xl lg:text-2xl;
   }
+
+  .font-outline-2 {
+    -webkit-text-stroke: 1px black;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
+}
+
+.text-outline {
+  color: white; /* Main text color */
+  text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black,
+    -1px 1px 0 black, 0px 1px 0 black, 1px 0px 0 black, 0px -1px 0 black,
+    -1px 0px 0 black;
 }

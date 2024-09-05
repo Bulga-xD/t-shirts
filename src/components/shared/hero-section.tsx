@@ -22,7 +22,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative md:h-[860px] mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
+    <section className="relative h-[700px] md:h-[860px] mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
       <AnimatePresence>
         <motion.div
           key={currentImage}
@@ -39,16 +39,10 @@ const HeroSection = () => {
           />
         </motion.div>
       </AnimatePresence>
-      <div className="relative z-10 text-center text-white p-4 bg-opacity-50 flex flex-col justify-center max-w-7xl backdrop-blur-3xl bg-white/10 rounded-lg">
-        <h1 className="text-4xl md:text-7xl font-bold uppercase">
-          Открий своя стил – една тениска наведнъж!
+      <div className="relative z-10 text-center text-white p-4 bg-opacity-50 flex flex-col justify-center max-w-7xl md:backdrop-blur-3xl bg-white/10 md:rounded-lg">
+        <h1 className="text-3xl md:text-7xl font-bold uppercase text-outline">
+          Освободи смелостта. Прекрачи границите. Прегърни духа на Вандала.
         </h1>
-
-        <p className="text-white text-md md:text-lg max-w-5xl m-auto">
-          Открийте тениски, които съчетават комфорт с креативност. Намерете
-          перфектната си кройка и нека стилът ви блести с уникални дизайни.
-          Добре дошли в новото ви място за тениски.
-        </p>
       </div>
     </section>
   );

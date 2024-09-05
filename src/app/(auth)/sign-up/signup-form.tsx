@@ -85,7 +85,7 @@ export default function SignUpForm() {
           Вече имате акаунт?{" "}
           <Link
             target="_self"
-            className="link text-black hover:underline"
+            className="link text-black dark:text-white hover:underline"
             href={`/sign-in?callbackUrl=${callbackUrl}`}
           >
             Влезте

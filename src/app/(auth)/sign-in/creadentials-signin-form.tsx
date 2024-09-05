@@ -74,7 +74,7 @@ export default function CredentialsSignInForm() {
           Нямате акаунт?{" "}
           <Link
             target="_self"
-            className="link text-black hover:underline"
+            className="link text-black dark:text-white hover:underline"
             href={`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
           >
             Регистрирайте се.
