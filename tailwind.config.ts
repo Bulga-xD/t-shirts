@@ -22,6 +22,7 @@ const config = withUt({
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        "another-danger": ["'Another Danger'", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

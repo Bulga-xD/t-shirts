@@ -40,7 +40,7 @@ const Header = async () => {
             </DrawerTrigger>
             <DrawerContent className="h-full max-w-sm">
               <DrawerHeader>
-                <DrawerTitle>Select a category</DrawerTitle>
+                <DrawerTitle>Изберете категория</DrawerTitle>
                 <div className="space-y-1">
                   {categories.map((category) => (
                     <Button
@@ -61,13 +61,8 @@ const Header = async () => {
             </DrawerContent>
           </Drawer>
           <Link href="/" className="flex-start">
-            <Image
-              src="/assets/icons/logo.svg"
-              width={48}
-              height={48}
-              alt={`${APP_NAME} logo`}
-            />
-            {APP_NAME}
+            <p className="font-another-danger">VANDALL</p>
+            {/* {APP_NAME} */}
           </Link>
         </div>
         <div className="hidden md:block">

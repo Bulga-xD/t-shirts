@@ -34,7 +34,7 @@ export default function CredentialsSignInForm() {
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Имейл</Label>
           <Input
             id="email"
             name="email"
@@ -45,7 +45,7 @@ export default function CredentialsSignInForm() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">Парола</Label>
           <Input
             id="password"
             name="password"
@@ -63,7 +63,7 @@ export default function CredentialsSignInForm() {
         )}
         {!data && (
           <div className="text-center text-destructive">
-            Unknown error happened.{" "}
+            Възникна неочаквана грешка.{" "}
             <Button onClick={() => window.location.reload()}>
               Please reload
             </Button>
@@ -71,13 +71,13 @@ export default function CredentialsSignInForm() {
         )}
 
         <div className="text-sm text-center text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          Нямате акаунт?{" "}
           <Link
             target="_self"
-            className="link"
+            className="link text-black hover:underline"
             href={`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
           >
-            Sign Up
+            Регистрирайте се.
           </Link>
         </div>
       </div>

@@ -35,12 +35,9 @@ export default async function SignIn({
       <Card>
         <CardHeader className="space-y-4">
           <Link href="/" className="flex-center">
-            <Image
-              src="/assets/icons/logo.svg"
-              width={100}
-              height={100}
-              alt={`${APP_NAME} logo`}
-            />
+            <h1 className="font-another-danger text-3xl lg:text-4xl">
+              VANDALL
+            </h1>
           </Link>
           <CardTitle className="text-center">Sign In</CardTitle>
           <CardDescription className="text-center">

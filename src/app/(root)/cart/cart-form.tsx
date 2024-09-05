@@ -37,7 +37,13 @@ export default function CartForm() {
 
       {items.length === 0 ? (
         <div>
-          Количката е празна. <Link href="/">Отиди да я напълниш!</Link>
+          Количката е празна.{" "}
+          <Link
+            className="font-bold hover:underline hover:underline-offset-2"
+            href="/"
+          >
+            Отиди да я напълниш!
+          </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">

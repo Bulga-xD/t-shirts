@@ -39,6 +39,11 @@ const ProductDetails = async ({
   if (!product) notFound();
   const session = await auth();
 
+  const stringValue = product.price.toString();
+  const [intValue, floatValue] = stringValue.includes(".")
+    ? stringValue.split(".")
+    : [stringValue, ""];
+
   return (
     <>
       <section className="max-w-7xl m-auto p-5 md:px-10">
@@ -60,21 +65,28 @@ const ProductDetails = async ({
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
-                  <ProductPrice
-                    value={Number(product.price)}
-                    className="p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700"
-                  />
+                  <div className="flex items-center gap-1">
+                    <p
+                      className={
+                        "text-2xl flex p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700"
+                      }
+                    >
+                      {intValue}
+                      <span className="text-xs align-super">{floatValue}</span>
+                      <span className="text-sm mt-2 ml-1">лв.</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <section>
-              <h3 className="text-xl">Size</h3>
+              <h3 className="text-xl">Размери</h3>
               <SizeSelector currentSize={size} />
             </section>
 
             <div>
-              <p>Description:</p>
+              <p>Описание:</p>
               <p>{product.description}</p>
             </div>
           </div>
@@ -82,17 +94,17 @@ const ProductDetails = async ({
             <Card>
               <CardContent className="p-4">
                 <div className="mb-2 flex justify-between">
-                  <div>Price</div>
+                  <div>Цена</div>
                   <div>
                     <ProductPrice value={Number(product.price)} />
                   </div>
                 </div>
                 <div className="mb-2 flex justify-between">
-                  <div>Status</div>
+                  <div>Наличност</div>
                   {product.stock > 0 ? (
-                    <Badge variant="outline">In stock</Badge>
+                    <Badge variant="outline">В наличност</Badge>
                   ) : (
-                    <Badge variant="destructive">Unavailable</Badge>
+                    <Badge variant="destructive">Няма налични</Badge>
                   )}
                 </div>
                 {product.stock !== 0 && (

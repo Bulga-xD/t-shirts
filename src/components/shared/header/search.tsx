@@ -18,11 +18,11 @@ export default async function Search() {
       <div className="flex w-full max-w-sm items-center space-x-2">
         <Select name="category">
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All" />
+            <SelectValue placeholder="Всички" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem key={"All"} value={"all"}>
-              All
+              Всички
             </SelectItem>
             {categories.map((category: { category: string }) => (
               <SelectItem key={category.category} value={category.category}>
@@ -35,7 +35,7 @@ export default async function Search() {
         <Input
           name="q"
           type="text"
-          placeholder="Search..."
+          placeholder="Търси..."
           className="md:w-[100px] lg:w-[300px]"
         />
         <Button>

@@ -3,12 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const images = [
-  "/assets/hero/hero1.jpg",
-  "/assets/hero/hero2.jpg",
-  "/assets/hero/hero3.jpg",
-  "/assets/hero/hero4.jpg",
-];
+const images = ["/assets/hero/hero1.png", "/assets/hero/hero2.png"];
 
 const HeroSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -27,7 +22,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative md:h-[850px] mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
+    <section className="relative md:h-[860px] mb-10 md:mb-0 flex justify-center items-center flex-col gap-10 overflow-hidden w-full">
       <AnimatePresence>
         <motion.div
           key={currentImage}
@@ -44,10 +39,11 @@ const HeroSection = () => {
           />
         </motion.div>
       </AnimatePresence>
-      <div className="relative z-10 text-center text-white p-4 bg-opacity-50 flex flex-col justify-center max-w-7xl">
+      <div className="relative z-10 text-center text-white p-4 bg-opacity-50 flex flex-col justify-center max-w-7xl backdrop-blur-3xl bg-white/10 rounded-lg">
         <h1 className="text-4xl md:text-7xl font-bold uppercase">
           Открий своя стил – една тениска наведнъж!
         </h1>
+
         <p className="text-white text-md md:text-lg max-w-5xl m-auto">
           Открийте тениски, които съчетават комфорт с креативност. Намерете
           перфектната си кройка и нека стилът ви блести с уникални дизайни.

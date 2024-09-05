@@ -15,10 +15,6 @@ const links = [
     title: "Поръчки",
     href: "/user/orders",
   },
-  {
-    title: "Настройки",
-    href: "/user/settings",
-  },
 ];
 
 export default function MainNav({

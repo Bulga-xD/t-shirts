@@ -36,16 +36,13 @@ export default async function SignUp({
       <Card>
         <CardHeader className="space-y-4">
           <Link href="/" className="flex-center">
-            <Image
-              src="/assets/icons/logo.svg"
-              width={100}
-              height={100}
-              alt={`${APP_NAME} logo`}
-            />
+            <h1 className="font-another-danger text-3xl lg:text-4xl">
+              VANDALL
+            </h1>
           </Link>
-          <CardTitle className="text-center">Create Account</CardTitle>
+          <CardTitle className="text-center">Регистрация</CardTitle>
           <CardDescription className="text-center">
-            Enter your information below to create your account
+            Въведете информацията си по-долу, за да създадете профил
           </CardDescription>
         </CardHeader>
         <CardContent>

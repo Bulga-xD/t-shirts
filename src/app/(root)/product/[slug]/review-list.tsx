@@ -232,14 +232,14 @@ export default function ReviewList({
         </Dialog>
       ) : (
         <div>
-          Please
+          Моля
           <Link
             className="text-primary px-2"
             href={`/api/auth/signin?callbackUrl=/product/${productSlug}`}
           >
-            Влез
+            влезте в профила си
           </Link>
-          за да напишеш отзив
+          за да напишете отзив
         </div>
       )}
       <div className="flex flex-col gap-3">

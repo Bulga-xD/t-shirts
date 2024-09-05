@@ -16,12 +16,7 @@ export default async function AdminLayout({
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
             <Link href="/" className="w-36">
-              <Image
-                src="/assets/icons/logo.svg"
-                width={48}
-                height={48}
-                alt={`${APP_NAME} logo`}
-              />
+              <p className="font-another-danger">VANDALL</p>
             </Link>
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">

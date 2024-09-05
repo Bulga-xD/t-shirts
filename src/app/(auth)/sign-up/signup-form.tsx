@@ -33,7 +33,7 @@ export default function SignUpForm() {
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
         <div>
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Име</Label>
           <Input
             id="name"
             name="name"
@@ -44,7 +44,7 @@ export default function SignUpForm() {
           />
         </div>
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Имейл</Label>
           <Input
             id="email"
             name="email"
@@ -55,7 +55,7 @@ export default function SignUpForm() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">Парола</Label>
           <Input
             id="password"
             name="password"
@@ -65,7 +65,7 @@ export default function SignUpForm() {
           />
         </div>
         <div>
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Label htmlFor="confirmPassword">Повторете паролата</Label>
           <Input
             id="confirmPassword"
             name="confirmPassword"
@@ -82,13 +82,13 @@ export default function SignUpForm() {
           <div className="text-center text-destructive">{data.message}</div>
         )}
         <div className="text-sm text-center text-muted-foreground">
-          Already have an account?{" "}
+          Вече имате акаунт?{" "}
           <Link
             target="_self"
-            className="link"
+            className="link text-black hover:underline"
             href={`/sign-in?callbackUrl=${callbackUrl}`}
           >
-            Sign In
+            Влезте
           </Link>
         </div>
       </div>

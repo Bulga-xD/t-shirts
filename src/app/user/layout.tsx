@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import MainNav from "./main-nav";
 import Menu from "@/components/shared/header/menu";
+import Search from "@/components/shared/header/search";
 
 export default async function UserDashboardLayout({
   children,
@@ -16,16 +17,11 @@ export default async function UserDashboardLayout({
         <div className="border-b">
           <div className="flex h-16 items-center px-4 max-w-7xl m-auto p-5 md:px-10">
             <Link href="/" className="w-36">
-              <Image
-                src="/assets/icons/logo.svg"
-                width={48}
-                height={48}
-                alt={`${APP_NAME} logo`}
-              />
+              <p className="font-another-danger">VANDALL</p>
             </Link>
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">
-              {/* <Search /> */}
+              <Search />
               <Menu />
             </div>
           </div>

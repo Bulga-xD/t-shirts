@@ -1,7 +1,4 @@
-import { Decimal } from "@prisma/client/runtime/library";
-import { DefaultValues } from "react-hook-form";
-
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "T-Shirts";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "VANDALL";
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "An E-Comeerce store for T-Shirts";
 

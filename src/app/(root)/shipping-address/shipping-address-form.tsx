@@ -30,10 +30,6 @@ export default function ShippingAddressForm({
 }) {
   const router = useRouter();
   const { items } = useCart();
-  if (items.length === 0) {
-    router.push("/cart");
-    return null;
-  }
 
   const form = useForm<ShippingAddress>({
     resolver: zodResolver(shippingAddressSchema),
@@ -55,6 +51,11 @@ export default function ShippingAddressForm({
       router.push("/payment-method");
     });
   };
+
+  if (items.length === 0) {
+    router.push("/cart");
+    return null;
+  }
 
   return (
     <section className="max-w-7xl m-auto p-5 md:px-10">
