@@ -16,7 +16,7 @@ export default function AddToCart({
   const existItem = items.find((x) => x.productId === item.productId);
 
   return existItem ? (
-    <div>
+    <div className="sm:w-full flex sm:items-center sm:mr-4 sm:mt-2">
       <Button
         type="button"
         variant="outline"
@@ -51,7 +51,10 @@ export default function AddToCart({
       onClick={() => addItem(item)}
     >
       {isPending ? <Loader className="animate-spin" /> : <Plus />}
-      Добави в количката
+      <span className="inline sm:inline md:hidden lg:inline">
+        Добави в количката
+      </span>
+      <span className="hidden md:inline lg:hidden">Добави</span>
     </Button>
   );
 }

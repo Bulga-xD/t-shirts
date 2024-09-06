@@ -93,13 +93,16 @@ const ProductDetails = async ({
           <div>
             <Card>
               <CardContent className="p-4">
-                <div className="mb-2 flex justify-between">
+                <div className="mb-2 flex justify-between sm:text-sm sm:items-center">
                   <div>Цена</div>
                   <div>
-                    <ProductPrice value={Number(product.price)} />
+                    <ProductPrice
+                      className="sm:text-xl ml-1"
+                      value={Number(product.price)}
+                    />
                   </div>
                 </div>
-                <div className="mb-2 flex justify-between">
+                <div className="mb-2 flex md:flex-col md:items-center lg:flex justify-between">
                   <div>Наличност</div>
                   {product.stock > 0 ? (
                     <Badge variant="outline">В наличност</Badge>

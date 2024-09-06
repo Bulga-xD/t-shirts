@@ -207,9 +207,9 @@ export default async function SearchPage({
           <div className="flex items-center">
             {/* {data.length === 0 ? 'No' : countProducts} Results */}
             {q !== "all" && q !== "" && "Query : " + q}
-            {category !== "all" &&
-              category !== "" &&
-              "   Category : " + category}
+            {category !== "all" && category !== ""
+              ? "Категория: " + category
+              : "Няма избрана категория"}
             {price !== "all" && "    Price: " + price}
             {rating !== "all" && "    Rating: " + rating + " & up"}
             &nbsp;
@@ -218,7 +218,7 @@ export default async function SearchPage({
             rating !== "all" ||
             price !== "all" ? (
               <Button variant={"link"} asChild>
-                <Link href="/search">Clear</Link>
+                <Link href="/search">Изчисти</Link>
               </Button>
             ) : null}
           </div>

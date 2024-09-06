@@ -1,4 +1,3 @@
-import { APP_NAME } from "@/lib/constants";
 import Menu from "./menu";
 import {
   Drawer,
@@ -12,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
 import { getAllCategories } from "@/lib/actions/product.actions";
 import Link from "next/link";
-import Image from "next/image";
 import Search from "./search";
 
 interface Category {

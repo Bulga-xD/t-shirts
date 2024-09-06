@@ -25,7 +25,7 @@ export default async function OrdersPage({
   const page = Number(searchParams.page) || 1;
   const orders = await getMyOrders({
     page,
-    limit: 6,
+    limit: 10,
   });
 
   return (
