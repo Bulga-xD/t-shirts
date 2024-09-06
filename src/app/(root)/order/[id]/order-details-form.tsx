@@ -27,12 +27,10 @@ import {
 
 export default function OrderDetailsForm({
   order,
-  paypalClientId,
   isAdmin,
   stripeClientSecret,
 }: {
   order: Order;
-  paypalClientId: string;
   isAdmin: boolean;
   stripeClientSecret: string | null;
 }) {
