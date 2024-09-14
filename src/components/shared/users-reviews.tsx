@@ -31,38 +31,40 @@ const UserReviews = ({ reviews }: { reviews: UserReviewType[] }) => {
         <h2 className="text-3xl font-bold">
           Над 30,000+ Доволни Клиенти избрали VANDALL!
         </h2>
-        <div>
+        <div className="space-x-2">
           <Button variant="outline" onClick={handlePrevious}>
             <ChevronLeft />
           </Button>
-
           <Button variant="outline" onClick={handleNext}>
             <ChevronRight />
           </Button>
         </div>
       </div>
-
-      <div className="overflow-hidden">
-        <div
-          className="w-full py-4 px-1 grid grid-flow-col transition-transform duration-500 ease-in-out gap-4"
-          style={{
-            transform: `translateX(-${currentIndex * cardWidth}%)`,
-            gridAutoColumns: `calc(${cardWidth}% - 12px)`,
-          }}
-        >
-          {reviews.map((review) => (
-            <div key={review.id} className="w-[calc(100% / 3)]">
-              <UserReview
-                fullName={review.fullName!}
-                city={review.city || ""}
-                title={review.title}
-                rating={review.rating}
-                text={review.text}
-              />
-            </div>
-          ))}
+      {reviews.length > 0 ? (
+        <div className="overflow-hidden">
+          <div
+            className="w-full py-4 px-1 grid grid-flow-col transition-transform duration-500 ease-in-out gap-4"
+            style={{
+              transform: `translateX(-${currentIndex * cardWidth}%)`,
+              gridAutoColumns: `calc(${cardWidth}% - 12px)`,
+            }}
+          >
+            {reviews.map((review) => (
+              <div key={review.id} className="w-[calc(100% / 3)]">
+                <UserReview
+                  fullName={review.fullName!}
+                  city={review.city || ""}
+                  title={review.title}
+                  rating={review.rating}
+                  text={review.text}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-center text-xl">Няма публикувани отзиви</p>
+      )}
     </section>
   );
 };
