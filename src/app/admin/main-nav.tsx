@@ -22,6 +22,14 @@ const links = [
     title: "Потребители",
     href: "/admin/users",
   },
+  {
+    title: "Пормоции",
+    href: "/admin/montly-deals",
+  },
+  {
+    title: "Ревюта",
+    href: "/admin/user-reviews",
+  },
 ];
 
 export default function MainNav({

@@ -148,3 +148,15 @@ export const insertReviewSchema = z.object({
   description: z.string().min(1, "Description is required"),
   isVerifiedPurchase: z.boolean().optional().default(true),
 });
+
+export const insertUserReviewSchema = z.object({
+  fullName: z.string().optional().nullable(),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, "Рейтинга трябва да е най-малко 1")
+    .max(5, "Рейтинга трябва да е най-много 5"),
+  title: z.string().min(1, "Заглавието е задължително"),
+  city: z.string().optional().nullable(),
+  text: z.string().min(1, "Описанието е задължително"),
+});

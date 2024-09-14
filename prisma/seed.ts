@@ -79,12 +79,56 @@ const sampleData = {
   ],
 };
 
+export const reviews = [
+  {
+    fullName: "Иван Иванов",
+    city: "София",
+    title: "Страхотен продукт",
+    rating: 5,
+    text: "Много съм доволен от покупката си. Препоръчвам на всеки, който търси качество и добра цена.",
+  },
+  {
+    fullName: "Мария Петрова",
+    city: "Пловдив",
+    title: "Добро качество, но бавно обслужване",
+    rating: 4,
+    text: "Продуктът е добър, но доставката отне повече време, отколкото очаквах. Все пак съм доволна от качеството.",
+  },
+  {
+    fullName: "Георги Димитров",
+    city: "Варна",
+    title: "Не отговаря на очакванията",
+    rating: 2,
+    text: "Имах високи очаквания, но продуктът не отговори на тях. Качеството не е толкова добро, колкото е описано.",
+  },
+  {
+    fullName: "Десислава Николова",
+    city: "Бургас",
+    title: "Отлично обслужване и продукт",
+    rating: 5,
+    text: "Обслужването беше бързо и професионално. Продуктът надмина очакванията ми. Определено бих поръчала отново.",
+  },
+  {
+    fullName: "Стоян Колев",
+    city: "Русе",
+    title: "Среден опит",
+    rating: 3,
+    text: "Продуктът е на приемливо ниво, но има какво да се подобри. Цената е справедлива за качеството, което получих.",
+  },
+];
+
 export default sampleData;
 
 async function main() {
   // Seed users
   prisma.user.deleteMany();
   prisma.product.deleteMany();
+
+  for (const review of reviews) {
+    await prisma.userReview.create({
+      data: review,
+    });
+  }
 
   for (const user of sampleData.users) {
     await prisma.user.create({

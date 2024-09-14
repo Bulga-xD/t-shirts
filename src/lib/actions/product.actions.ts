@@ -143,7 +143,7 @@ export const deleteProduct = async (id: string) => {
     revalidatePath("/admin/products");
     return {
       success: true,
-      message: "Product deleted successfully",
+      message: "Успешно изтрит продукт",
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

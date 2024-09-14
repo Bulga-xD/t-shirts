@@ -44,7 +44,7 @@ export default async function AdminLayout({
     <>
       <div className="flex flex-col">
         <header className="w-full border-b sticky top-0 z-50 bg-white dark:bg-black">
-          <div className="wrapper flex-between max-w-7xl m-auto p-5 md:px-10">
+          <div className="wrapper flex-between px-8 py-4">
             <div className="flex-start gap-2">
               <div className="block sm:hidden">
                 <Drawer direction="left">

@@ -4,6 +4,7 @@ import {
   Order as OrderModel,
   OrderItem as OrderItemModel,
   Review as ReviewModel,
+  UserReview as UserReviewModel,
 } from "@prisma/client";
 import {
   cartItemSchema,
@@ -47,3 +48,5 @@ export type OrderItem = OrderItemModel;
 export type Review = ReviewModel & {
   user?: { name: string };
 };
+
+export type UserReview = UserReviewModel;

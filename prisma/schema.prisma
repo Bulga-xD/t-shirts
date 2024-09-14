@@ -25,11 +25,12 @@ model User {
     paymentMethod String?   @map("paymentMethod")
     createdAt     DateTime  @default(now()) @map("createdAt")
 
-    accounts Account[]
-    sessions Session[]
-    orders   Order[]
-    carts    Cart[]
-    Review   Review[]
+    accounts   Account[]
+    sessions   Session[]
+    orders     Order[]
+    carts      Cart[]
+    Review     Review[]
+    UserReview UserReview[]
 
     @@index([email], name: "user_email_idx") // Retaining unique index on email
     @@map("user")
@@ -172,20 +173,25 @@ model HeroImage {
 }
 
 model MonthlyDeal {
-    id      String  @id @default(uuid())
-    image   String
-    days    String?
-    hours   String?
-    minutes String?
-    seconds String?
+    id        String   @id @default(uuid())
+    image     String
+    days      String?
+    hours     String?
+    minutes   String?
+    seconds   String?
+    createdAt DateTime @default(now())
 
     @@map("monthly-deal")
 }
 
 model UserReview {
-    id       String @id @default(uuid())
-    fullName String
-    rating   Int
-    title    String
-    city     String
+    id        String   @id @default(uuid())
+    fullName  String?
+    rating    Int
+    title     String
+    city      String?
+    text      String
+    createdAt DateTime @default(now())
+    user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String?
 }
