@@ -14,7 +14,7 @@ const EcommerceFeatures = () => {
       <Card>
         <CardTitle className="text-center my-4">
           Защо да изберете продуктите на{" "}
-          <span className="font-another-danger">{APP_NAME}</span>
+          <span className="font-another-danger font-normal">{APP_NAME}</span>
         </CardTitle>
 
         <CardContent className="flex flex-col sm:flex-row justify-center gap-4 p-4">
