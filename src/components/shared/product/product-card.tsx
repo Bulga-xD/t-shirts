@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Product } from "@/types";
 import ProductPrice from "./product-price";
 import Rating from "./rating";
+import { Button } from "@/components/ui/button";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
@@ -36,6 +37,16 @@ const ProductCard = ({ product }: { product: Product }) => {
           ) : (
             <p className="text-destructive">Няма в наличност</p>
           )}
+        </div>
+        <div>
+          <Link
+            href={`/quickview/product/${[product.slug]}`}
+            className="w-full"
+          >
+            <Button variant="outline" size="sm" className="flex gap-2 w-full">
+              <span>Бърз преглед</span>
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>
