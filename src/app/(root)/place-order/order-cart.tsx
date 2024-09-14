@@ -58,11 +58,11 @@ export const OrderCart = ({ user }: { user: User }) => {
           <CardContent className="p-4 gap-4">
             <h2 className="text-xl pb-4">Начин на плащане</h2>
             <p>{user.paymentMethod}</p>
-            <div>
+            {/* <div>
               <Link href="/payment-method">
                 <Button variant="outline">Промени</Button>
               </Link>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
         <Card>
@@ -100,7 +100,12 @@ export const OrderCart = ({ user }: { user: User }) => {
                     <TableCell>
                       <span className="px-2">{item.size}</span>
                     </TableCell>
-                    <TableCell className="text-right">${item.price}</TableCell>
+                    <TableCell className="text-right">
+                      {formatPrice(item.price, {
+                        currency: "BGN",
+                        IntlFormat: "bg-BG",
+                      })}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

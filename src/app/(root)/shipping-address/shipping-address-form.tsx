@@ -48,7 +48,7 @@ export default function ShippingAddressForm({
         });
         return;
       }
-      router.push("/payment-method");
+      router.push("/place-order");
     });
   };
 
@@ -156,7 +156,7 @@ export default function ShippingAddressForm({
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}
-                Към плащане
+                Напред
               </Button>
             </div>
           </form>

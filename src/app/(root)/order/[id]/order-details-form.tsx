@@ -28,11 +28,9 @@ import {
 export default function OrderDetailsForm({
   order,
   isAdmin,
-  stripeClientSecret,
 }: {
   order: Order;
   isAdmin: boolean;
-  stripeClientSecret: string | null;
 }) {
   const {
     shippingAddress: shippingAddressRaw,
@@ -216,14 +214,6 @@ export default function OrderDetailsForm({
                   })}
                 </div>
               </div>
-
-              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
-                <StripePayment
-                  priceInCents={Number(order.totalPrice) * 100}
-                  orderId={order.id}
-                  clientSecret={stripeClientSecret}
-                />
-              )}
 
               {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
                 <MarkAsPaidButton />

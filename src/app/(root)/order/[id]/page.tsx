@@ -1,4 +1,3 @@
-import Stripe from "stripe";
 import { getOrderById } from "@/lib/actions/order.actions";
 import { APP_NAME } from "@/lib/constants";
 import { notFound } from "next/navigation";
@@ -18,23 +17,10 @@ const OrderDetailsPage = async ({
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  let client_secret = null;
-  if (order.paymentMethod === "Stripe" && !order.isPaid) {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(Number(order.totalPrice) * 100),
-      currency: "BGN",
-      metadata: { orderId: order.id },
-    });
-    client_secret = paymentIntent.client_secret;
-  }
-
   return (
     <OrderDetailsForm
       order={order}
       isAdmin={session?.user.role === "admin" || false}
-      stripeClientSecret={client_secret}
     />
   );
 };

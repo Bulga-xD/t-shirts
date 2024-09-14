@@ -1,17 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import Stripe from "stripe";
 
 import { Button } from "@/components/ui/button";
 import { getOrderById } from "@/lib/actions/order.actions";
 import { APP_NAME } from "@/lib/constants";
 import ClearLocalStorageOnMount from "@/components/shared/clear-localstorage-on-mount";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
 export const metadata: Metadata = {
-  title: `Stripe Payment Success - ${APP_NAME}`,
+  title: `Order Success - ${APP_NAME}`,
 };
 
 export default async function SuccessPage({
@@ -26,17 +23,6 @@ export default async function SuccessPage({
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    searchParams.payment_intent
-  );
-  if (
-    paymentIntent.metadata.orderId == null ||
-    paymentIntent.metadata.orderId !== order.id.toString()
-  )
-    return notFound();
-
-  const isSuccess = paymentIntent.status === "succeeded";
-  if (!isSuccess) return redirect(`/order/${id}`);
   return (
     <div className="max-w-4xl w-full mx-auto space-y-8">
       <div className="flex flex-col gap-6 items-center ">

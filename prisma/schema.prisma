@@ -91,6 +91,7 @@ model Product {
 
     orderItems OrderItem[]
     Review     Review[]
+    HeroImages HeroImage[]
 
     @@map("product")
 }
@@ -162,4 +163,13 @@ model Review {
     product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@map("review")
+}
+
+model HeroImage {
+    id        String   @id @default(uuid())
+    image     String
+    product   Product? @relation(fields: [productId], references: [id])
+    productId String?
+
+    @@map("hero-image")
 }

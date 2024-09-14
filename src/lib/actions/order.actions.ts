@@ -8,9 +8,8 @@ import { formatError } from "../utils";
 import { CartItem, PaymentResult } from "@/types";
 import { PAGE_SIZE } from "../constants";
 import { db } from "@/database/client";
-import { getMyCart } from "./cart.actions";
 import { revalidatePath } from "next/cache";
-import { OrderItem } from "@prisma/client";
+import { sendOrderEmail } from "@/app/email";
 
 export async function getOrderById(orderId: string) {
   return await db.order.findFirst({
@@ -75,44 +74,58 @@ export const createOrder = async (
 
     const user = await getUserById(session.user.id!);
     if (!user.address) redirect("/shipping-address");
-    if (!user.paymentMethod) redirect("/payment-method");
 
     const orderData = {
       userId: user.id,
       shippingAddress: user.address,
-      paymentMethod: user.paymentMethod,
+      paymentMethod: "CashOnDelivery",
       itemsPrice,
       shippingPrice,
       totalPrice,
     };
 
     const insertedOrder = await db.$transaction(async (tx) => {
+      // Create the order
       const newOrder = await tx.order.create({
         data: orderData,
       });
 
-      for (const item of items) {
-        console.log(item);
+      // Insert order items
+      const orderItems = await Promise.all(
+        items.map((item) =>
+          tx.orderItem.create({
+            data: {
+              productId: item.productId,
+              name: item.name,
+              slug: item.slug,
+              price: parseFloat(item.price.toFixed(2)),
+              qty: item.qty,
+              image: item.image,
+              orderId: newOrder.id,
+              size: item.size,
+            },
+          })
+        )
+      );
 
-        await tx.orderItem.create({
-          data: {
-            productId: item.productId,
-            name: item.name,
-            slug: item.slug,
-            price: parseFloat(item.price.toFixed(2)),
-            qty: item.qty,
-            image: item.image,
-            orderId: newOrder.id,
+      const completeOrder = await tx.order.findUnique({
+        where: { id: newOrder.id },
+        include: {
+          orderItems: true,
+          user: {
+            select: { name: true, email: true },
           },
-        });
-      }
+        },
+      });
 
-      return newOrder.id;
+      return completeOrder;
     });
 
-    if (!insertedOrder) throw new Error("Order not created");
-    redirect(`/order/${insertedOrder}`);
-    return { success: true, message: "Успешно завършена порчъка" };
+    if (!insertedOrder || !insertedOrder.id)
+      throw new Error("Order not created");
+
+    sendOrderEmail(insertedOrder);
+    redirect(`/order/${insertedOrder.id}/order-success`);
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -134,7 +147,7 @@ export const updateOrderToPaid = async ({
   });
 
   if (!order) throw new Error("Order not found");
-  if (order.isPaid) throw new Error("Order is already paid");
+  // if (order.isPaid) throw new Error("Order is already paid");
 
   await db.$transaction(async (tx) => {
     for (const item of order.orderItems) {
@@ -157,6 +170,17 @@ export const updateOrderToPaid = async ({
       },
     });
   });
+
+  const updatedOrder = await db.order.findFirst({
+    where: { id: orderId },
+    include: {
+      orderItems: true,
+      user: { select: { name: true, email: true } },
+    },
+  });
+  if (!updatedOrder) {
+    throw new Error("Order not found");
+  }
 };
 
 export const getOrderSummary = async () => {

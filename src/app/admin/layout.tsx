@@ -65,9 +65,7 @@ export default async function AdminLayout({
                             asChild
                           >
                             <DrawerClose asChild>
-                              <Link href={`/search?category=${link.href}`}>
-                                {link.title}
-                              </Link>
+                              <Link href={link.href}>{link.title}</Link>
                             </DrawerClose>
                           </Button>
                         ))}
