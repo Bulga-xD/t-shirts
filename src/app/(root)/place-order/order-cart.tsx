@@ -57,7 +57,7 @@ export const OrderCart = ({ user }: { user: User }) => {
         <Card>
           <CardContent className="p-4 gap-4">
             <h2 className="text-xl pb-4">Начин на плащане</h2>
-            <p>{user.paymentMethod}</p>
+            <p>Наложен платеж</p>
             {/* <div>
               <Link href="/payment-method">
                 <Button variant="outline">Промени</Button>

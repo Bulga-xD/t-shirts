@@ -1,33 +1,51 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, Headset, ShoppingBag, WalletCards } from "lucide-react";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { APP_NAME } from "@/lib/constants";
+import {
+  DollarSign,
+  Headset,
+  ShoppingBag,
+  Medal,
+  Sparkles,
+} from "lucide-react";
 
 const EcommerceFeatures = () => {
   return (
     <div>
       <Card>
-        <CardContent className="flex flex-col sm:flex-row justify-evenly gap-4 p-4">
+        <CardTitle className="text-center my-4">
+          Защо да изберете продуктите на{" "}
+          <span className="font-another-danger">{APP_NAME}</span>
+        </CardTitle>
+
+        <CardContent className="flex flex-col sm:flex-row justify-center gap-4 p-4">
           <div className="space-y-2">
-            <ShoppingBag />
+            <ShoppingBag size={40} />
             <div className="text-sm font-bold">Безплатна доставка</div>
             <div className="text-sm text-muted-foreground">
-              Безплатна доставка за поръчки над 100лв.
+              Безплатна доставка за поръчки над 199лв.
             </div>
           </div>
           <div className="space-y-2">
-            <DollarSign />
-            <div className="text-sm font-bold">
-              Гаранция за връщане на парите
-            </div>
+            <DollarSign size={40} />
+            <div className="text-sm font-bold">Покупка без риск</div>
             <div className="text-sm text-muted-foreground">
-              В рамките на 30 дни след покупката
+              Замени или Върни до 14 дни след покупка
             </div>
           </div>
 
           <div className="space-y-2">
-            <Headset />
-            <div className="text-sm font-bold">24/7 поддръжка</div>
+            <Medal size={40} />
+            <div className="text-sm font-bold">Световни качество</div>
             <div className="text-sm text-muted-foreground">
-              Бърза и ефективна поддържка
+              Избработени от лидери в индустрията
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Sparkles size={40} />
+            <div className="text-sm font-bold">Премиум материали</div>
+            <div className="text-sm text-muted-foreground">
+              100% Първокласни и поръчкови материали
             </div>
           </div>
         </CardContent>

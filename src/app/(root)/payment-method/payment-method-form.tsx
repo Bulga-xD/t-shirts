@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
-import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
+import { PAYMENT_METHOD } from "@/lib/constants";
 import { paymentMethodSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
@@ -34,7 +34,7 @@ export default function PaymentMethodForm({
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
     defaultValues: {
-      type: preferredPaymentMethod || DEFAULT_PAYMENT_METHOD,
+      type: preferredPaymentMethod || "Наложен платеж",
     },
   });
 
@@ -87,22 +87,17 @@ export default function PaymentMethodForm({
                         onValueChange={field.onChange}
                         className="flex flex-col space-y-2"
                       >
-                        {PAYMENT_METHODS.map((paymentMethod) => (
-                          <FormItem
-                            key={paymentMethod}
-                            className="flex items-center space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <RadioGroupItem
-                                value={paymentMethod}
-                                checked={field.value === paymentMethod}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {paymentMethod}
-                            </FormLabel>
-                          </FormItem>
-                        ))}
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="CashOnDelivery"
+                              checked={field.value === "CashOnDelivery"}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Наложен Платеж
+                          </FormLabel>
+                        </FormItem>
                       </RadioGroup>
                     </FormControl>
                     <FormMessage />

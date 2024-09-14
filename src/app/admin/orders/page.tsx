@@ -31,6 +31,7 @@ export default async function OrdersPage({
 
   const orders = await getAllOrders({
     page: Number(page),
+    limit: 9,
   });
 
   return (

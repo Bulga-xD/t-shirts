@@ -290,7 +290,7 @@ export async function updateOrderToPaidByCOD(orderId: string) {
   try {
     await updateOrderToPaid({ orderId });
     revalidatePath(`/order/${orderId}`);
-    return { success: true, message: "Order paid successfully" };
+    return { success: true, message: "Успешно платена поръчка" };
   } catch (err) {
     return { success: false, message: formatError(err) };
   }

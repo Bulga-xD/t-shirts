@@ -16,9 +16,11 @@ export const sendOrderEmail = async (order: Order) => {
 
   const html = await render(<PurchaseReceiptEmail order={order} />);
 
+  const emails = ["ch.tonchev94@gmail.com", order.user.email];
+
   const options = {
     from: "chokobg@gmail.com",
-    to: "ch.tonchev94@gmail.com",
+    to: emails,
     subject: `Поръчка #${order.id}`,
     html,
   };

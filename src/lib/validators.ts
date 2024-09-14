@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS } from "./constants";
+import { PAYMENT_METHOD } from "./constants";
 
 // USER
 export const signInFormSchema = z.object({
@@ -54,7 +54,7 @@ export const paymentMethodSchema = z
   .object({
     type: z.string().min(1, "Начинът на плащане е задължителен"),
   })
-  .refine((data) => PAYMENT_METHODS.includes(data.type), {
+  .refine((data) => PAYMENT_METHOD.includes(data.type), {
     path: ["type"],
     message: "Невалиден начин на плащане",
   });

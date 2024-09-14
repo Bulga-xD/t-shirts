@@ -1,6 +1,5 @@
 "use client";
 
-import StripePayment from "./stripe-payment";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
