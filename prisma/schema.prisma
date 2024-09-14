@@ -91,7 +91,6 @@ model Product {
 
     orderItems OrderItem[]
     Review     Review[]
-    HeroImages HeroImage[]
 
     @@map("product")
 }
@@ -166,10 +165,27 @@ model Review {
 }
 
 model HeroImage {
-    id        String   @id @default(uuid())
-    image     String
-    product   Product? @relation(fields: [productId], references: [id])
-    productId String?
+    id    String @id @default(uuid())
+    image String
 
     @@map("hero-image")
+}
+
+model MonthlyDeal {
+    id      String  @id @default(uuid())
+    image   String
+    days    String?
+    hours   String?
+    minutes String?
+    seconds String?
+
+    @@map("monthly-deal")
+}
+
+model UserReview {
+    id       String @id @default(uuid())
+    fullName String
+    rating   Int
+    title    String
+    city     String
 }
