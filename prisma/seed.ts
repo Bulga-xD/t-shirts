@@ -10,12 +10,14 @@ const sampleData = {
       email: "admin@example.com",
       password: hashSync("123456", 10),
       role: "admin",
+      paymentMethod: "Наложен платеж",
     },
     {
       name: "Jane",
       email: "jane@example.com",
       password: hashSync("123456", 10),
       role: "user",
+      paymentMethod: "Наложен платеж",
     },
   ],
   products: [

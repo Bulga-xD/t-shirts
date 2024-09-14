@@ -15,7 +15,6 @@ export default async function PlaceOrderPage() {
   const session = await auth();
   const user = await getUserById(session?.user.id!);
   if (!user.address) redirect("/shipping-address");
-  if (!user.paymentMethod) redirect("/payment-method");
 
   return (
     <section className="max-w-7xl m-auto p-5 md:px-10">

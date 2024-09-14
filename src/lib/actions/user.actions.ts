@@ -34,9 +34,12 @@ export async function signUp(prevState: unknown, formData: FormData) {
       id: crypto.randomUUID(),
       ...userWithoutConfirmPassword,
       password: hashSync(user.password, 10),
+      paymentMethod: "Наложен платеж",
     };
 
-    await db.user.create({ data: values });
+    await db.user.create({
+      data: values,
+    });
     await signIn("credentials", {
       email: user.email,
       password: user.password,
