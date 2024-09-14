@@ -17,16 +17,19 @@ import { UserReviewDefaultValues } from "@/lib/constants";
 import { insertUserReviewSchema } from "@/lib/validators";
 import { UserReview } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function CreateReviewForm({
   review,
-  userId,
+  user,
+  userRole,
 }: {
   review?: UserReview;
-  userId?: string | null;
+  user?: User;
+  userRole?: string;
 }) {
   const router = useRouter();
 
@@ -48,7 +51,12 @@ export default function CreateReviewForm({
       toast({
         description: res.message,
       });
-      router.push(`/admin/user-reviews`);
+
+      if (user?.id && userRole === "admin") {
+        router.push(`/admin/user-reviews`);
+      } else {
+        router.push("/#reviews");
+      }
     }
   }
 

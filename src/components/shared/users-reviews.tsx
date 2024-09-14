@@ -26,7 +26,7 @@ const UserReviews = ({ reviews }: { reviews: UserReviewType[] }) => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section id="reviews" className="flex flex-col gap-4">
       <div className="flex justify-between mb-10">
         <h2 className="text-3xl font-bold">
           Над 30,000+ Доволни Клиенти избрали VANDALL!

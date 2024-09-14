@@ -56,6 +56,16 @@ const Header = async () => {
                       </Button>
                     ))}
                   </div>
+                  <DrawerTitle>Още</DrawerTitle>
+                  <Button
+                    className="w-full justify-start"
+                    variant="ghost"
+                    asChild
+                  >
+                    <DrawerClose asChild>
+                      <Link href={`/user-review`}>Дабвете ревю</Link>
+                    </DrawerClose>
+                  </Button>
                 </DrawerHeader>
               </DrawerContent>
             </Drawer>

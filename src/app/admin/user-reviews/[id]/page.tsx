@@ -19,7 +19,7 @@ const UserReviewAdminDetails = async ({
             <p>от {review?.createdAt.toLocaleDateString("bg-BG")}</p>
           </div>
           <hr />
-          <p>Име на потребителя - {review?.fullName || review?.user.name}</p>
+          <p>Име на потребителя - {review?.fullName}</p>
           <hr />
           <p>Град - {review?.city}</p>
           <hr />
@@ -35,9 +35,9 @@ const UserReviewAdminDetails = async ({
           <div className="flex flex-col gap-2">
             <h2>Потребител - {review?.userId}</h2>
             <hr />
-            <p>{review?.user.name}</p>
+            <p>{review?.user?.name}</p>
             <hr />
-            <p>{review?.user.email}</p>
+            <p>{review?.user?.email}</p>
             <hr />
           </div>
         </div>
