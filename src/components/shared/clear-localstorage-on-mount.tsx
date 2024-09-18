@@ -8,7 +8,6 @@ const ClearLocalStorageOnMount = () => {
   useEffect(() => {
     // Clear localStorage when the component mounts
     clearCart();
-    console.log("LocalStorage cleared!");
   }, []); // Empty dependency array means this effect runs once, on mount
 
   return null; // This component does not render anything

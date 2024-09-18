@@ -89,9 +89,6 @@ export default function ProductForm({
   const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
 
-  console.log(form.formState.errors);
-  console.log(form.getValues());
-
   return (
     <Form {...form}>
       <form

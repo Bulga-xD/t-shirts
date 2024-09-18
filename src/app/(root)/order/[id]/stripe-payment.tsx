@@ -20,8 +20,6 @@ export default function StripePayment({
   orderId: string;
   clientSecret: string;
 }) {
-  console.log(priceInCents);
-
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
   );

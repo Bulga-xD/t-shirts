@@ -26,10 +26,6 @@ export default function PurchaseReceiptEmail({
   order,
   colors,
 }: OrderInformationProps) {
-  order.orderItems.map((item) => {
-    console.log(item.image);
-  });
-
   const items = order.orderItems?.length ? order.orderItems : [];
 
   return (

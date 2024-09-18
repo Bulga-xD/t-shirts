@@ -13,6 +13,10 @@ export const getLatestProducts = async () => {
       createdAt: "desc",
     },
     take: 4,
+    include: {
+      sizes: true,
+      colors: true,
+    },
   });
 
   const formattedProducts = products.map((product) => {
@@ -122,6 +126,10 @@ export const getAllProducts = async ({
     orderBy,
     skip: (page - 1) * limit,
     take: limit,
+    include: {
+      sizes: true,
+      colors: true,
+    },
   });
 
   // Count total number of products that match the filters

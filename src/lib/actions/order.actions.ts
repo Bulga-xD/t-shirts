@@ -68,8 +68,6 @@ export const createOrder = async (
   shippingPrice: number,
   totalPrice: number
 ) => {
-  console.log(items);
-
   try {
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");

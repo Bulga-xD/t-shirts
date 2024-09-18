@@ -32,20 +32,6 @@ export default async function StorefrontProductQuickView(props: {
                 <p className="text-destructive">Няма в наличност</p>
               )}
             </div>
-            {product.stock !== 0 && (
-              <div className="flex-center">
-                <AddToCart
-                  item={{
-                    productId: product.id,
-                    name: product.name,
-                    slug: product.slug,
-                    price: Number(product.price),
-                    qty: 1,
-                    image: product.images![0],
-                  }}
-                />
-              </div>
-            )}
 
             <div className="my-2 flex items-start flex-col gap-2 justify-center">
               <ReloadButton />
