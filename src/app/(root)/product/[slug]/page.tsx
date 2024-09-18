@@ -12,6 +12,7 @@ import ReviewList from "./review-list";
 import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
 import SizeSelector from "@/components/shared/product/select-size";
+import ColorSelector from "@/components/shared/product/select-color";
 
 export async function generateMetadata({
   params,
@@ -82,7 +83,12 @@ const ProductDetails = async ({
 
             <section>
               <h3 className="text-xl">Размери</h3>
-              <SizeSelector currentSize={size} />
+              <SizeSelector currentSize={size} sizes={product.sizes} />
+            </section>
+
+            <section>
+              <h3 className="text-xl">Цветове</h3>
+              <ColorSelector currentColor={color} colors={product.colors} />
             </section>
 
             <div>
@@ -102,10 +108,12 @@ const ProductDetails = async ({
                     />
                   </div>
                 </div>
-                <div className="mb-2 flex md:flex-col md:items-center lg:flex justify-between">
+                <div className="mb-3 text-xl flex gap-1 md:flex-col md:items-center lg:flex justify-between">
                   <div>Наличност</div>
                   {product.stock > 0 ? (
-                    <Badge variant="outline">В наличност</Badge>
+                    <Badge className="p-2" variant="outline">
+                      В наличност - {product.stock} бр.
+                    </Badge>
                   ) : (
                     <Badge variant="destructive">Няма налични</Badge>
                   )}
@@ -120,7 +128,8 @@ const ProductDetails = async ({
                         price: round2(Number(product.price)),
                         qty: 1,
                         image: product.images![0],
-                        size: size || "M",
+                        size: size,
+                        color: color,
                       }}
                     />
                   </div>

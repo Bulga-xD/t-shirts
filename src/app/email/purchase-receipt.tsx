@@ -1,5 +1,5 @@
 import { formatPrice } from "@/lib/utils";
-import { Order } from "@/types";
+import { ColorType, Order } from "@/types";
 import {
   Body,
   Column,
@@ -17,11 +17,15 @@ import {
 
 type OrderInformationProps = {
   order: Order;
+  colors: ColorType[];
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 
-export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
+export default function PurchaseReceiptEmail({
+  order,
+  colors,
+}: OrderInformationProps) {
   order.orderItems.map((item) => {
     console.log(item.image);
   });
@@ -46,7 +50,7 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
                 </Column>
                 <Column>
                   <Text className="mb-0 text-gray-500 whitespace-nowrap text-nowrap mr-4">
-                    Закупено на
+                    Поръчано на
                   </Text>
                   <Text className="mt-0 mr-4">
                     {dateFormatter.format(order.createdAt)}
@@ -54,7 +58,7 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
                 </Column>
                 <Column>
                   <Text className="mb-0 text-gray-500 whitespace-nowrap text-nowrap mr-4">
-                    Платена цена
+                    Сума
                   </Text>
                   <Text className="mt-0 mr-4">
                     {formatPrice(Number(order.totalPrice), {
@@ -82,6 +86,11 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
                   </Column>
                   <Column className="flex-1 text-right px-2">
                     <Text className="my-0">Размер: {item.size}</Text>
+                  </Column>
+                  <Column className="flex-1 text-right px-2">
+                    <Text className="my-0">
+                      Цвят: {colors.find((c) => c.id === item.color)?.label}
+                    </Text>
                   </Column>
                   <Column className="flex-1 text-right px-2">
                     <Text className="my-0">

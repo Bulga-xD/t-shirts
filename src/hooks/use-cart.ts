@@ -6,19 +6,20 @@ import { persist, createJSONStorage } from "zustand/middleware";
 type CartState = {
   items: CartItem[];
   addItem: (product: CartItem) => void;
-  decreaseItem: (productId: string) => void;
+  decreaseItem: (productId: string, size: string) => void;
   clearCart: () => void;
   removeItem: (productId: string) => void;
 };
 
 export const useCart = create<CartState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       items: [],
       addItem: (product) =>
         set((state) => {
           const existingItemIndex = state.items.findIndex(
-            (item) => item.productId === product.productId
+            (item) =>
+              item.productId === product.productId && item.size === product.size
           );
           const updatedItems = [...state.items];
 
@@ -37,10 +38,10 @@ export const useCart = create<CartState>()(
 
           return newState;
         }),
-      decreaseItem: (productId) =>
+      decreaseItem: (productId, size) =>
         set((state) => {
           const existingItemIndex = state.items.findIndex(
-            (item) => item.productId === productId
+            (item) => item.productId === productId && item.size == size
           );
 
           const existingItem = state.items[existingItemIndex];
@@ -82,7 +83,7 @@ export const useCart = create<CartState>()(
         }),
     }),
     {
-      name: "cart-storage",
+      name: "userCart",
       storage: createJSONStorage(() => localStorage),
     }
   )

@@ -82,19 +82,49 @@ model Product {
     images      String[]
     brand       String
     description String
-    stock       Int
     price       Decimal  @default(0.00)
     rating      Decimal  @default(0.00)
     numReviews  Int      @default(0)
     isFeatured  Boolean  @default(false)
     banner      String?
     createdAt   DateTime @default(now())
+    stock       Int
 
     orderItems OrderItem[]
-    Review     Review[]
+    reviews    Review[]
+
+    colors Color[] @relation("ProductColors")
+    sizes  Size[]  @relation("ProductSizes")
 
     @@map("product")
 }
+
+model Size {
+    id    String @id @unique
+    label String
+
+    products Product[] @relation("ProductSizes")
+}
+
+model Color {
+    id    String @id @unique
+    label String
+
+    products Product[] @relation("ProductColors")
+}
+
+// model Stock {
+//     id        String @id @default(uuid())
+//     productId String
+//     size      String
+//     color     String
+//     quantity  Int
+
+//     product Product @relation(fields: [productId], references: [id])
+
+//     @@unique([productId, size, color]) // Ensure unique combinations
+//     @@map("stock")
+// }
 
 model Cart {
     id            String   @id @default(uuid())
@@ -139,7 +169,8 @@ model OrderItem {
     name      String
     slug      String
     image     String
-    size      String?
+    size      String
+    color     String
 
     order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     product Product @relation(fields: [productId], references: [id], onDelete: Cascade)

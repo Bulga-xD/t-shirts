@@ -31,6 +31,10 @@ export const getProductBySlug = async (slug: string) => {
     where: {
       slug,
     },
+    include: {
+      sizes: true,
+      colors: true,
+    },
   });
 };
 
@@ -160,6 +164,22 @@ export const createProduct = async (
         ...product,
         price: Number(product.price),
         stock: Number(product.stock),
+        colors: {
+          connectOrCreate: product.colors
+            ? product.colors.map((color) => ({
+                where: { id: color.id },
+                create: { id: color.id, label: color.label },
+              }))
+            : [],
+        },
+        sizes: {
+          connectOrCreate: product.sizes
+            ? product.sizes.map((size) => ({
+                where: { id: size.id },
+                create: { id: size.id, label: size.label },
+              }))
+            : [],
+        },
       },
     });
     revalidatePath("/admin/products");
@@ -192,6 +212,22 @@ export const updateProduct = async (
         ...product,
         price: Number(product.price),
         stock: Number(product.stock),
+        colors: {
+          connectOrCreate: product.colors
+            ? product.colors.map((color) => ({
+                where: { id: color.id },
+                create: { id: color.id, label: color.label },
+              }))
+            : [],
+        },
+        sizes: {
+          connectOrCreate: product.sizes
+            ? product.sizes.map((size) => ({
+                where: { id: size.id },
+                create: { id: size.id, label: size.label },
+              }))
+            : [],
+        },
       },
     });
     revalidatePath("/admin/products");
@@ -208,6 +244,10 @@ export const getProductById = async (id: string) => {
   return db.product.findUnique({
     where: {
       id,
+    },
+    include: {
+      sizes: true,
+      colors: true,
     },
   });
 };

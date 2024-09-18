@@ -38,6 +38,8 @@ export const productDefaultValues = {
   rating: 0,
   numReviews: 0,
   isFeatured: false,
+  sizes: [],
+  colors: [],
 };
 
 export const USER_ROLES = process.env.USER_ROLES

@@ -16,6 +16,7 @@ import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import PlaceOrderForm from "./place-order-form";
+import { ColorType } from "@/types";
 
 type Address = {
   fullName: string;
@@ -25,7 +26,13 @@ type Address = {
   country: string;
 };
 
-export const OrderCart = ({ user }: { user: User }) => {
+export const OrderCart = ({
+  user,
+  colors,
+}: {
+  user: User;
+  colors: ColorType[];
+}) => {
   const { items } = useCart();
 
   const address = user.address as Address;
@@ -58,11 +65,6 @@ export const OrderCart = ({ user }: { user: User }) => {
           <CardContent className="p-4 gap-4">
             <h2 className="text-xl pb-4">Начин на плащане</h2>
             <p>Наложен платеж</p>
-            {/* <div>
-              <Link href="/payment-method">
-                <Button variant="outline">Промени</Button>
-              </Link>
-            </div> */}
           </CardContent>
         </Card>
         <Card>
@@ -74,6 +76,7 @@ export const OrderCart = ({ user }: { user: User }) => {
                   <TableHead>Продукт</TableHead>
                   <TableHead>Количество</TableHead>
                   <TableHead>Размер</TableHead>
+                  <TableHead>Цвят</TableHead>
                   <TableHead>Цена</TableHead>
                 </TableRow>
               </TableHeader>
@@ -100,7 +103,12 @@ export const OrderCart = ({ user }: { user: User }) => {
                     <TableCell>
                       <span className="px-2">{item.size}</span>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell>
+                      <span className="px-2">
+                        {colors.find((c) => c.id === item.color)?.label}
+                      </span>
+                    </TableCell>
+                    <TableCell>
                       {formatPrice(item.price, {
                         currency: "BGN",
                         IntlFormat: "bg-BG",

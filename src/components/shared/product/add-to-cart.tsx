@@ -13,18 +13,31 @@ export default function AddToCart({
 }) {
   const { addItem, decreaseItem, items } = useCart();
   const [isPending] = useTransition();
-  const existItem = items.find((x) => x.productId === item.productId);
 
-  return existItem ? (
-    <div className="sm:w-full flex sm:items-center sm:mr-4 sm:mt-2">
+  // Check for an existing item with the same productId and size
+  const existItem = items.find(
+    (x) => x.productId === item.productId && x.size === item.size
+  );
+
+  // Check if the size is selected
+  const isSizeSelected = item.size && item.size !== "";
+  const isColorSelected = item.color && item.color !== "";
+
+  return !isSizeSelected || !isColorSelected ? (
+    <div className="text-red-500 text-center">
+      <p>Моля изберете цвят и размер.</p>
+    </div>
+  ) : existItem ? (
+    <div className="sm:w-full flex justify-center sm:items-center sm:mr-4 sm:mt-2 gap-2">
       <Button
         type="button"
         variant="outline"
         disabled={isPending}
-        onClick={() => decreaseItem(item.productId)}
+        onClick={() => decreaseItem(item.productId, item.size)}
+        className="flex items-center justify-center w-8 h-8 p-2"
       >
         {isPending ? (
-          <Loader className="w-4 h-4  animate-spin" />
+          <Loader className="w-4 h-4 animate-spin" />
         ) : (
           <Minus className="w-4 h-4" />
         )}
@@ -35,6 +48,7 @@ export default function AddToCart({
         variant="outline"
         disabled={isPending}
         onClick={() => addItem(item)}
+        className="flex items-center justify-center w-8 h-8 p-2"
       >
         {isPending ? (
           <Loader className="w-4 h-4 animate-spin" />

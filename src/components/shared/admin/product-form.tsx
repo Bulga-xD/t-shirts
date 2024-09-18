@@ -25,27 +25,31 @@ import { UploadButton } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { ColorType, SizeType } from "@/types";
 
 export default function ProductForm({
   type,
   product,
   productId,
+  colors,
+  sizes,
 }: {
   type: "Create" | "Update";
   product?: Product;
   productId?: string;
+  colors: ColorType[];
+  sizes: SizeType[];
 }) {
-  const router = useRouter();   
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof insertProductSchema>>({
     resolver:
       type === "Update"
         ? zodResolver(updateProductSchema)
         : zodResolver(insertProductSchema),
-    defaultValues:
-      product && type === "Update"
-        ? { ...product, price: Number(product.price) }
-        : productDefaultValues,
+    defaultValues: product
+      ? { ...product, price: Number(product.price) }
+      : { ...productDefaultValues },
   });
 
   const { toast } = useToast();
@@ -84,6 +88,9 @@ export default function ProductForm({
   const images = form.watch("images");
   const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
+
+  console.log(form.formState.errors);
+  console.log(form.getValues());
 
   return (
     <Form {...form}>
@@ -170,6 +177,105 @@ export default function ProductForm({
             )}
           />
         </div>
+
+        <div className="flex flex-col gap-5 md:flex-row">
+          <FormField
+            control={form.control}
+            name="sizes"
+            render={({ field }) => {
+              const currentValues = field.value || []; // Default to empty array
+
+              const isChecked = (id: string) =>
+                currentValues.some((value) => value.id === id);
+
+              return (
+                <FormItem className="w-full">
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Размери</FormLabel>
+                  </div>
+                  <div className="flex flex-row flex-wrap items-center space-x-3">
+                    {sizes.map((item) => (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={isChecked(item.id)}
+                            onCheckedChange={(checked) => {
+                              const updatedValues = checked
+                                ? [
+                                    ...currentValues,
+                                    { id: item.id, label: item.label },
+                                  ]
+                                : currentValues.filter(
+                                    (value) => value.id !== item.id
+                                  );
+                              field.onChange(updatedValues);
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+
+          <FormField
+            control={form.control}
+            name="colors"
+            render={({ field }) => {
+              const currentValues = field.value || []; // Default to empty array
+
+              const isChecked = (id: string) =>
+                currentValues.some((value) => value.id === id);
+
+              return (
+                <FormItem className="w-full">
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Цветове</FormLabel>
+                  </div>
+                  <div className="flex flex-row flex-wrap items-center space-x-3">
+                    {colors.map((item) => (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={isChecked(item.id)}
+                            onCheckedChange={(checked) => {
+                              const updatedValues = checked
+                                ? [
+                                    ...currentValues,
+                                    { id: item.id, label: item.label },
+                                  ]
+                                : currentValues.filter(
+                                    (value) => value.id !== item.id
+                                  );
+                              field.onChange(updatedValues);
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+        </div>
+
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}

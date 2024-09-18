@@ -10,20 +10,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 import { useCart } from "@/hooks/use-cart";
+import { getColorById } from "@/lib/actions/color.actions";
 import { formatPrice } from "@/lib/utils";
+import { ColorType } from "@/types";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-export default function CartForm() {
+export default function CartForm({ colors }: { colors: ColorType[] }) {
   const router = useRouter();
   const { items, addItem, decreaseItem } = useCart();
 
-  const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
   const cartTotal = items.reduce(
@@ -54,6 +54,7 @@ export default function CartForm() {
                   <TableHead>Продукт</TableHead>
                   <TableHead className="text-center">Количество</TableHead>
                   <TableHead className="text-center">Размер</TableHead>
+                  <TableHead className="text-center">Цвят</TableHead>
                   <TableHead className="text-center">Цена</TableHead>
                 </TableRow>
               </TableHeader>
@@ -79,7 +80,7 @@ export default function CartForm() {
                         disabled={isPending}
                         variant="outline"
                         type="button"
-                        onClick={() => decreaseItem(item.productId)}
+                        onClick={() => decreaseItem(item.productId, item.size)}
                       >
                         {isPending ? (
                           <Loader className="w-4 h-4  animate-spin" />
@@ -102,6 +103,9 @@ export default function CartForm() {
                       </Button>
                     </TableCell>
                     <TableCell className="text-center">{item.size}</TableCell>
+                    <TableCell className="text-center">
+                      {colors.find((c) => c.id === item.color)?.label}
+                    </TableCell>
                     <TableCell className="text-right">
                       {formatPrice(item.price, {
                         currency: "BGN",

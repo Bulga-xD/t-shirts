@@ -1,42 +1,42 @@
 "use client";
 
-import { SizeType } from "@/types";
+import { ColorType } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const SizeSelector = ({
-  currentSize,
-  sizes,
+const ColorSelector = ({
+  currentColor,
+  colors,
 }: {
-  currentSize: string;
-  sizes: SizeType[];
+  currentColor: string;
+  colors: ColorType[];
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSizeChange = (size: string) => {
+  const handleSizeChange = (color: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("size", size);
+    params.set("color", color);
 
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
   return (
     <div className="flex gap-2">
-      {sizes.map((sizeOption) => (
+      {colors.map((color) => (
         <button
-          key={sizeOption.id}
-          onClick={() => handleSizeChange(sizeOption.label)}
+          key={color.id}
+          onClick={() => handleSizeChange(color.id)}
           className={`border px-2 rounded-md ${
-            currentSize === sizeOption.label
+            currentColor === color.id
               ? "bg-primary text-white"
               : "hover:bg-primary hover:text-white"
           }`}
         >
-          {sizeOption.label}
+          {color.label}
         </button>
       ))}
     </div>
   );
 };
 
-export default SizeSelector;
+export default ColorSelector;

@@ -35,7 +35,8 @@ export const cartItemSchema = z.object({
       (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(value)),
       "Price must have exactly two decimal places (e.g., 49.99)"
     ),
-  size: z.string().optional(),
+  size: z.string(),
+  color: z.string(),
 });
 
 export const shippingAddressSchema = z.object({
@@ -113,6 +114,22 @@ export const insertProductSchema = z.object({
     .min(0.01, "Цената трябва да е поне 0.01"),
   isFeatured: z.boolean(),
   banner: z.string().optional().nullable(),
+  colors: z
+    .array(
+      z.object({
+        id: z.string().min(1, "Невалиден ID за цвят"),
+        label: z.string().min(1, "Стойността на цвета е задължителна"),
+      })
+    )
+    .min(1, "Трябва да има поне един цвят"),
+  sizes: z
+    .array(
+      z.object({
+        id: z.string().min(1, "Невалиден ID за размер"),
+        label: z.string().min(1, "Стойността на размера е задължителна"),
+      })
+    )
+    .min(1, "Трябва да има поне един размер"),
 });
 
 export const updateProductSchema = z.object({
@@ -134,6 +151,22 @@ export const updateProductSchema = z.object({
     .min(0.01, "Цената трябва да е поне 0.01"),
   isFeatured: z.boolean(),
   banner: z.string().optional().nullable(),
+  colors: z
+    .array(
+      z.object({
+        id: z.string().min(1, "Невалиден ID за цвят"),
+        label: z.string().min(1, "Стойността на цвета е задължителна"),
+      })
+    )
+    .min(1, "Трябва да има поне един цвят"),
+  sizes: z
+    .array(
+      z.object({
+        id: z.string().min(1, "Невалиден ID за размер"),
+        label: z.string().min(1, "Стойността на размера е задължителна"),
+      })
+    )
+    .min(1, "Трябва да има поне един размер"),
 });
 
 export const insertReviewSchema = z.object({

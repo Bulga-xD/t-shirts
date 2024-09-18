@@ -168,7 +168,7 @@ export default function OrderDetailsForm({
                       <TableCell>
                         <span className="px-2">{item.size}</span>
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell>
                         {formatPrice(Number(item.price), {
                           currency: "BGN",
                           IntlFormat: "bg-BG",

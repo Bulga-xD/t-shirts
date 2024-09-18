@@ -6,6 +6,7 @@ import { APP_NAME } from "@/lib/constants";
 
 import { redirect } from "next/navigation";
 import { OrderCart } from "./order-cart";
+import { getColors } from "@/lib/actions/color.actions";
 
 export const metadata = {
   title: `Place Order - ${APP_NAME}`,
@@ -15,13 +16,14 @@ export default async function PlaceOrderPage() {
   const session = await auth();
   const user = await getUserById(session?.user.id!);
   if (!user.address) redirect("/shipping-address");
+  const colors = await getColors();
 
   return (
     <section className="max-w-7xl m-auto p-5 md:px-10">
       <CheckoutSteps current={2} />
       <h1 className="py-4 text-2xl">Направи поръчка</h1>
 
-      <OrderCart user={user} />
+      <OrderCart user={user} colors={colors} />
     </section>
   );
 }

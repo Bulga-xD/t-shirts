@@ -2,6 +2,7 @@ import { render } from "@react-email/components";
 import nodemailer from "nodemailer";
 import PurchaseReceiptEmail from "./purchase-receipt";
 import { Order } from "@/types";
+import { getColors } from "@/lib/actions/color.actions";
 
 export const sendOrderEmail = async (order: Order) => {
   const transporter = nodemailer.createTransport({
@@ -14,7 +15,11 @@ export const sendOrderEmail = async (order: Order) => {
     },
   });
 
-  const html = await render(<PurchaseReceiptEmail order={order} />);
+  const colors = await getColors();
+
+  const html = await render(
+    <PurchaseReceiptEmail order={order} colors={colors} />
+  );
 
   const emails = ["ch.tonchev94@gmail.com", order.user.email];
 
