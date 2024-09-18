@@ -11,14 +11,25 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
-        <Link href={`/product/${product.slug}`}>
-          <Image
-            alt={product.name}
-            className="aspect-square object-cover rounded"
-            height={300}
-            src={product.images![0]}
-            width={300}
-          />
+        <Link href={`/product/${product.slug}`} className="relative group">
+          <div className="relative w-full h-[300px] overflow-hidden rounded">
+            <Image
+              alt={product.name}
+              className="object-cover rounded transition-opacity duration-500 ease-in-out group-hover:opacity-0"
+              src={product.images![0]}
+              width={300}
+              height={300}
+            />
+            {product.images![1] && (
+              <Image
+                alt={product.name}
+                className="absolute top-0 left-0 aspect-square object-cover rounded opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
+                src={product.images![1]}
+                width={300}
+                height={300}
+              />
+            )}
+          </div>
         </Link>
       </CardHeader>
       <CardContent className="p-4 grid gap-4">
@@ -30,7 +41,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             <h2 className="text-sm font-medium">{product.name}</h2>
           </Link>
         </div>
-        <div className="flex-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <Rating value={Number(product.rating)} />
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
@@ -38,12 +49,9 @@ const ProductCard = ({ product }: { product: Product }) => {
             <p className="text-destructive">Няма в наличност</p>
           )}
         </div>
-        <div>
-          <Link
-            href={`/quickview/product/${[product.slug]}`}
-            className="w-full"
-          >
-            <Button variant="outline" size="sm" className="flex gap-2 w-full">
+        <div className="w-full">
+          <Link href={`/quickview/product/${product.slug}`}>
+            <Button variant="outline" size="sm" className="w-full">
               <span>Бърз преглед</span>
             </Button>
           </Link>

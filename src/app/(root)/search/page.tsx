@@ -1,5 +1,6 @@
 import Pagination from "@/components/shared/pagination";
 import ProductCard from "@/components/shared/product/product-card";
+import ProductList from "@/components/shared/product/product-list";
 import { Button } from "@/components/ui/button";
 import {
   getAllCategories,
@@ -236,7 +237,7 @@ export default async function SearchPage({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3  ">
+        <div className="max-w-[1200px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products!.data.length === 0 && <div>No product found</div>}
           {products!.data.map((product) => (
             <ProductCard

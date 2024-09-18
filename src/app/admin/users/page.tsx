@@ -32,6 +32,7 @@ export default async function AdminUser({
   const page = Number(searchParams.page) || 1;
   const users = await getAllUsers({
     page,
+    limit: 9,
   });
   return (
     <div className="space-y-2">
@@ -41,10 +42,10 @@ export default async function AdminUser({
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead>NAME</TableHead>
-              <TableHead>EMAIL</TableHead>
-              <TableHead>ROLE</TableHead>
-              <TableHead>ACTIONS</TableHead>
+              <TableHead>ИМЕ</TableHead>
+              <TableHead>ИМЕЙЛ</TableHead>
+              <TableHead>РОЛЯ</TableHead>
+              <TableHead>ДЕЙСТВИЯ</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
