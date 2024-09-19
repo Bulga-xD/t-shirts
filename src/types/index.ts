@@ -33,6 +33,7 @@ export type Product = {
   createdAt: Date;
   colors: ColorType[];
   sizes: SizeType[];
+  discount: number | null;
 };
 
 // CART

@@ -48,7 +48,11 @@ export default function ProductForm({
         ? zodResolver(updateProductSchema)
         : zodResolver(insertProductSchema),
     defaultValues: product
-      ? { ...product, price: Number(product.price) }
+      ? {
+          ...product,
+          price: Number(product.price),
+          discount: Number(product.discount),
+        }
       : { ...productDefaultValues },
   });
 
@@ -283,7 +287,24 @@ export default function ProductForm({
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="Въведете цан на продукта"
+                    placeholder="Въведете цена на продукта"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="discount"
+            render={({ field }: { field: any }) => (
+              <FormItem className="w-full">
+                <FormLabel>Цена след намаление</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Въведете цанa на намалението"
                     {...field}
                   />
                 </FormControl>

@@ -44,7 +44,20 @@ const ProductCard = ({ product }: { product: Product }) => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Rating value={Number(product.rating)} />
           {product.stock > 0 ? (
-            <ProductPrice value={Number(product.price)} />
+            product.discount && product.discount > 0 ? (
+              <div className="flex gap-2 items-center">
+                <ProductPrice
+                  className="line-through text-sm text-gray-500"
+                  value={Number(product.price)}
+                />
+                <ProductPrice
+                  className="text-lg font-semibold"
+                  value={Number(product.discount)}
+                />
+              </div>
+            ) : (
+              <ProductPrice value={Number(product.price)} />
+            )
           ) : (
             <p className="text-destructive">Няма в наличност</p>
           )}

@@ -37,6 +37,7 @@ export const cartItemSchema = z.object({
     ),
   size: z.string(),
   color: z.string(),
+  discount: z.number().optional(),
 });
 
 export const shippingAddressSchema = z.object({
@@ -130,6 +131,11 @@ export const insertProductSchema = z.object({
       })
     )
     .min(1, "Трябва да има поне един размер"),
+  discount: z.coerce
+    .number()
+    .nonnegative()
+    .min(1, "Цената трябва да е поне 0.01")
+    .optional(),
 });
 
 export const updateProductSchema = z.object({
@@ -167,6 +173,11 @@ export const updateProductSchema = z.object({
       })
     )
     .min(1, "Трябва да има поне един размер"),
+  discount: z.coerce
+    .number()
+    .nonnegative()
+    .min(1, "Цената трябва да е поне 0.01")
+    .optional(),
 });
 
 export const insertReviewSchema = z.object({

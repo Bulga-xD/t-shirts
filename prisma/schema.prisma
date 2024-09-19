@@ -89,6 +89,7 @@ model Product {
     banner      String?
     createdAt   DateTime @default(now())
     stock       Int
+    discount    Decimal?
 
     orderItems OrderItem[]
     reviews    Review[]
@@ -112,19 +113,6 @@ model Color {
 
     products Product[] @relation("ProductColors")
 }
-
-// model Stock {
-//     id        String @id @default(uuid())
-//     productId String
-//     size      String
-//     color     String
-//     quantity  Int
-
-//     product Product @relation(fields: [productId], references: [id])
-
-//     @@unique([productId, size, color]) // Ensure unique combinations
-//     @@map("stock")
-// }
 
 model Cart {
     id            String   @id @default(uuid())

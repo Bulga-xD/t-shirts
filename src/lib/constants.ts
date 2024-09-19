@@ -40,6 +40,7 @@ export const productDefaultValues = {
   isFeatured: false,
   sizes: [],
   colors: [],
+  discoint: 0,
 };
 
 export const USER_ROLES = process.env.USER_ROLES

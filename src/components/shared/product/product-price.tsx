@@ -3,9 +3,11 @@ import { cn } from "@/lib/utils";
 const ProductPrice = ({
   value,
   className,
+  withText,
 }: {
   value: number;
   className?: string;
+  withText?: boolean;
 }) => {
   const stringValue = value.toString();
   const [intValue, floatValue] = stringValue.includes(".")
@@ -17,7 +19,7 @@ const ProductPrice = ({
         {intValue}
         <span className="text-xs align-super">{floatValue}</span>
       </p>
-      <span>лв.</span>
+      {withText && <span className="text-base">лв.</span>}
     </div>
   );
 };
