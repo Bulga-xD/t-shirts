@@ -246,6 +246,7 @@ export default async function SearchPage({
                 ...product,
                 price: Number(product.price),
                 rating: Number(product.rating),
+                discount: Number(product.discount),
               }}
             />
           ))}
