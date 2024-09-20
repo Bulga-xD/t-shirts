@@ -61,3 +61,9 @@ export const UserReviewDefaultValues = {
   text: "",
   rating: 0,
 };
+
+export const MonthlyDealDefaultValues = {
+  image: "",
+  endDate: new Date(),
+  text: "",
+};

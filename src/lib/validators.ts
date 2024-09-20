@@ -131,11 +131,7 @@ export const insertProductSchema = z.object({
       })
     )
     .min(1, "Трябва да има поне един размер"),
-  discount: z.coerce
-    .number()
-    .nonnegative()
-    .min(1, "Цената трябва да е поне 0.01")
-    .optional(),
+  discount: z.coerce.number().nonnegative().optional(),
 });
 
 export const updateProductSchema = z.object({
@@ -173,11 +169,7 @@ export const updateProductSchema = z.object({
       })
     )
     .min(1, "Трябва да има поне един размер"),
-  discount: z.coerce
-    .number()
-    .nonnegative()
-    .min(1, "Цената трябва да е поне 0.01")
-    .optional(),
+  discount: z.coerce.number().nonnegative().optional(),
 });
 
 export const insertReviewSchema = z.object({
@@ -203,4 +195,16 @@ export const insertUserReviewSchema = z.object({
   title: z.string().min(1, "Заглавието е задължително"),
   city: z.string().optional().nullable(),
   text: z.string().min(1, "Описанието е задължително"),
+});
+
+export const insertMonthlyDealSchema = z.object({
+  text: z.string().min(1, "Описанието е задължително"),
+  image: z.string(),
+  endDate: z.date({
+    required_error: "Крайната дата е задължителна",
+  }),
+});
+
+export const updateMonthlyDealSchema = insertMonthlyDealSchema.extend({
+  id: z.string().uuid(), // Ensure id is a valid UUID for updating the deal
 });

@@ -24,7 +24,7 @@ const links = [
   },
   {
     title: "Пормоции",
-    href: "/admin/montly-deals",
+    href: "/admin/monthly-deals",
   },
   {
     title: "Ревюта",

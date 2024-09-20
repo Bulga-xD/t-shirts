@@ -88,6 +88,7 @@ model Product {
     isFeatured  Boolean  @default(false)
     banner      String?
     createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
     stock       Int
     discount    Decimal?
 
@@ -194,10 +195,8 @@ model HeroImage {
 model MonthlyDeal {
     id        String   @id @default(uuid())
     image     String
-    days      String?
-    hours     String?
-    minutes   String?
-    seconds   String?
+    text      String
+    endDate   DateTime
     createdAt DateTime @default(now())
 
     @@map("monthly-deal")

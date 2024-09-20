@@ -259,3 +259,17 @@ export const getProductById = async (id: string) => {
     },
   });
 };
+
+export const getLatestFeaturedProduct = async () => {
+  return db.product.findFirst({
+    where: {
+      isFeatured: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      banner: true,
+    },
+  });
+};
