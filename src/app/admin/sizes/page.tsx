@@ -36,7 +36,7 @@ export default async function Sizes({
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <h1 className="h2-bold">Цветове за тениски</h1>
+        <h1 className="h2-bold">Размери за тениски</h1>
         <Button asChild variant="default">
           <Link href="/admin/sizes/create">Добави размер</Link>
         </Button>

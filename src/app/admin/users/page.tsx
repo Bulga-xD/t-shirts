@@ -36,7 +36,7 @@ export default async function AdminUser({
   });
   return (
     <div className="space-y-2">
-      <h1 className="h2-bold">Users</h1>
+      <h1 className="h2-bold">Потребители</h1>
       <div>
         <Table>
           <TableHeader>

@@ -39,7 +39,7 @@ const UserReviewsAdminPage = async ({
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <h1 className="h2-bold uppercase">Ревюта</h1>
+        <h1 className="h2-bold">Ревюта</h1>
         <Button asChild variant="default">
           <Link href="/admin/user-reviews/create">Добави ревю</Link>
         </Button>

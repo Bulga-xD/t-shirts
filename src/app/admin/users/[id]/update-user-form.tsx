@@ -141,7 +141,7 @@ export default function UpdateUserForm({
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Submitting..." : `Update User`}
+            {form.formState.isSubmitting ? "Зареждане..." : `Запази`}
           </Button>
         </div>
       </form>

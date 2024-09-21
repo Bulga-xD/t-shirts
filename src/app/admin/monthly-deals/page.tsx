@@ -25,7 +25,7 @@ const MonthlyDeal = async ({
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <h1 className="h2-bold">Оферти</h1>
+        <h1 className="h2-bold">Промоции</h1>
         <Button asChild variant="default">
           <Link href="/admin/monthly-deals/create">Добави оферта</Link>
         </Button>

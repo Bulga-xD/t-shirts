@@ -21,19 +21,19 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <div className="flex flex-col">
-        <header className="w-full border-b sticky h-20 top-0 z-50 bg-white dark:bg-black">
-          <div className="wrapper flex-between px-8 py-4">
-            <div className="flex-start gap-2">
-              <div className="block sm:hidden">
+    <div className="flex flex-col min-h-screen">
+      <header className="w-full border-b sticky md:h-20 top-0 z-50 bg-white dark:bg-black">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center">
+              <div className="md:hidden">
                 <Drawer direction="left">
                   <DrawerTrigger asChild>
                     <Button variant="outline">
                       <MenuIcon />
                     </Button>
                   </DrawerTrigger>
-                  <DrawerContent className="h-full max-w-sm">
+                  <DrawerContent className="h-full w-[250px]">
                     <DrawerHeader>
                       <DrawerTitle>Навигация</DrawerTitle>
                       <div className="space-y-1">
@@ -60,24 +60,28 @@ export default async function AdminLayout({
                   </DrawerContent>
                 </Drawer>
               </div>
-              <Link href="/" className="flex-start">
+              <Link href="/" className="flex items-center">
                 <p className="font-another-danger">VANDALL</p>
               </Link>
             </div>
-            <div className="hidden md:block">
+            <div className="hidden md:block flex-1 max-w-xl mx-4">
               <Search />
             </div>
             <Menu />
           </div>
-          <div className="md:hidden block px-5 pb-2">
+          <div className="md:hidden py-2">
             <Search />
           </div>
-        </header>
-        <div className="flex gap-12 pr-8">
-          <MainNav className="hidden sm:flex pt-6" />
-          <section className="flex-1 py-5">{children}</section>
         </div>
+      </header>
+      <div className="flex-grow flex flex-col md:flex-row">
+        <MainNav className="hidden md:flex md:w-64 md:flex-shrink-0 md:pt-6" />
+        <main className="flex-1 overflow-x-hidden">
+          <div className="w-full mx-auto px-5 sm:px-6 lg:px-9 py-6">
+            {children}
+          </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 }

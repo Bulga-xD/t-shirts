@@ -36,7 +36,7 @@ export default async function OrdersPage({
 
   return (
     <div className="space-y-2">
-      <h1 className="h2-bold uppercase">Поръчки</h1>
+      <h1 className="h2-bold">Поръчки</h1>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
