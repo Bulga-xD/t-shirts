@@ -9,13 +9,11 @@ import { getAllUserReviews } from "@/lib/actions/user-reviews.actions";
 import { notFound } from "next/navigation";
 
 export default async function Home() {
-  const latestProducts = await getLatestProducts();
-  const userReviews = await getAllUserReviews({ limit: 10, page: 1 });
-  const featuredProduct = await getLatestFeaturedProduct();
-
-  if (!featuredProduct) {
-    return notFound();
-  }
+  let [latestProducts, userReviews, featuredProduct] = await Promise.all([
+    await getLatestProducts(),
+    await getAllUserReviews({ limit: 10, page: 1 }),
+    await getLatestFeaturedProduct(),
+  ]);
 
   const products = latestProducts.map((product) => ({
     ...product,

@@ -186,10 +186,24 @@ model Review {
 }
 
 model HeroImage {
-    id    String @id @default(uuid())
-    image String
+    id            String       @id @default(uuid())
+    image         String
+    imageKey      String
+    HeroSection   HeroSection? @relation(fields: [heroSectionId], references: [id])
+    heroSectionId String?
 
     @@map("hero-image")
+}
+
+model HeroSection {
+    id        String      @id @default(uuid())
+    text      String
+    images    HeroImage[]
+    isActive  Boolean     @default(false)
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    @@map("hero-section")
 }
 
 model MonthlyDeal {

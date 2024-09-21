@@ -1,3 +1,13 @@
+import {
+  ChartColumnBig,
+  Handshake,
+  Images,
+  ListOrdered,
+  MessageCircleHeart,
+  Shirt,
+  UsersRound,
+} from "lucide-react";
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "VANDALL";
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "An E-Comeerce store for T-Shirts";
@@ -67,3 +77,46 @@ export const MonthlyDealDefaultValues = {
   endDate: new Date(),
   text: "",
 };
+
+export const HeroSectionDefaultValues = {
+  image: "",
+  text: "",
+};
+
+export const links = [
+  {
+    title: "Прглед",
+    href: "/admin/overview",
+    icon: ChartColumnBig,
+  },
+  {
+    title: "Продукти",
+    href: "/admin/products",
+    icon: Shirt,
+  },
+  {
+    title: "Поръчки",
+    href: "/admin/orders",
+    icon: ListOrdered,
+  },
+  {
+    title: "Потребители",
+    href: "/admin/users",
+    icon: UsersRound,
+  },
+  {
+    title: "Пормоции",
+    href: "/admin/monthly-deals",
+    icon: Handshake,
+  },
+  {
+    title: "Ревюта",
+    href: "/admin/user-reviews",
+    icon: MessageCircleHeart,
+  },
+  {
+    title: "Главна секция",
+    href: "/admin/hero-section",
+    icon: Images,
+  },
+];

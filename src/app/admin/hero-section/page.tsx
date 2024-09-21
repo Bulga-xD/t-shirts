@@ -9,49 +9,54 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteDeal, getAllDeals } from "@/lib/actions/monthly-deals.actions";
+import {
+  deleteHeroData,
+  getHeroData,
+} from "@/lib/actions/hero-section.actions";
 import { formatId } from "@/lib/utils";
 import Link from "next/link";
 
-const MonthlyDeal = async ({
+const HeroSectionAdminPage = async ({
   searchParams,
 }: {
   searchParams: { page: string };
 }) => {
   const page = Number(searchParams.page) || 1;
-  const limit = 9;
+  const { data, totalPages } = await getHeroData();
 
-  const { deals, totalPages } = await getAllDeals({ page, limit });
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <h1 className="h2-bold">Оферти</h1>
-        <Button asChild variant="default">
-          <Link href="/admin/monthly-deals/create">Добави оферта</Link>
-        </Button>
+        <h1 className="h2-bold">Снимки на началната страница</h1>
+        <div className="space-x-4">
+          <Button asChild variant="default">
+            <Link href="/admin/hero-section/create">Добави</Link>
+          </Button>
+        </div>
       </div>
       <div>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>ИД</TableHead>
-              <TableHead>Създадено на</TableHead>
+              <TableHead>Текст</TableHead>
               <TableHead className="w-[100px]">ДЕЙСТВИЯ</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {deals?.map((deal) => (
-              <TableRow key={deal.id}>
-                <TableCell>{formatId(deal.id)}</TableCell>
-                <TableCell>{deal.createdAt.toDateString()}</TableCell>
+            {data?.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{formatId(item.id)}</TableCell>
+
+                <TableCell>{item.text}</TableCell>
 
                 <TableCell className="flex gap-1">
                   <Button asChild variant="outline" size="sm">
-                    <Link href={`/admin/monthly-deals/${deal.id}`}>
+                    <Link href={`/admin/hero-section/${item.id}`}>
                       Редактирай
                     </Link>
                   </Button>
-                  <DeleteDialog id={deal.id} action={deleteDeal} />
+                  <DeleteDialog id={item.id} action={deleteHeroData} />
                 </TableCell>
               </TableRow>
             ))}
@@ -62,4 +67,4 @@ const MonthlyDeal = async ({
     </div>
   );
 };
-export default MonthlyDeal;
+export default HeroSectionAdminPage;

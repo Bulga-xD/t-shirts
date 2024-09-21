@@ -75,11 +75,6 @@ const UserReviewsAdminPage = async ({
                 </TableCell>
 
                 <TableCell className="flex gap-1">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={`/admin/user-reviews/${review.id}`}>
-                      Детайли
-                    </Link>
-                  </Button>
                   <DeleteDialog id={review.id} action={deleteReview} />
                 </TableCell>
               </TableRow>

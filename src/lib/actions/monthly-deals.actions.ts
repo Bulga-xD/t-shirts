@@ -65,7 +65,11 @@ export const createDeal = async (
   try {
     const deal = insertMonthlyDealSchema.parse(data);
     await db.monthlyDeal.create({
-      data: deal,
+      data: {
+        text: deal.text,
+        image: deal.image,
+        endDate: deal.endDate,
+      },
     });
     revalidatePath("/admin/monthly-deals");
     return {
@@ -94,7 +98,11 @@ export const updateDeal = async (
       where: {
         id: deal.id,
       },
-      data,
+      data: {
+        text: deal.text,
+        image: deal.image,
+        endDate: deal.endDate,
+      },
     });
     revalidatePath("/admin/monthly-deals");
     return { success: true, message: "Успешно актуализирана оферта" };
@@ -107,6 +115,14 @@ export const getLatestFeaturedProduct = async () => {
   return await db.monthlyDeal.findFirst({
     orderBy: {
       createdAt: "desc",
+    },
+  });
+};
+
+export const getSingeFeaturedProduct = async (id: string) => {
+  return await db.monthlyDeal.findUnique({
+    where: {
+      id,
     },
   });
 };

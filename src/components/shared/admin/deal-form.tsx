@@ -27,6 +27,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createDeal, updateDeal } from "@/lib/actions/monthly-deals.actions";
 import { DatePicker } from "../datepicker";
+import { XCircleIcon } from "lucide-react";
+import { imageRemove } from "@/lib/actions/hero-section.actions";
 
 export default function MonthlyDealForm({
   type,
@@ -89,6 +91,17 @@ export default function MonthlyDealForm({
     }
   }
 
+  const handleDeleteImage = async (imageKey: string) => {
+    const res = await imageRemove(imageKey);
+    if (res.success) {
+      toast({ description: res.message });
+      form.setValue("image", "");
+      form.setValue("imageKey", null);
+    } else {
+      toast({ variant: "destructive", description: res.message });
+    }
+  };
+
   return (
     <Form {...form}>
       <form
@@ -126,13 +139,34 @@ export default function MonthlyDealForm({
                   <CardContent className="space-y-2 mt-2 min-h-48">
                     <div className="flex-start space-x-2">
                       {field.value && (
-                        <Image
-                          src={field.value || ""}
-                          alt="product image"
-                          className="w-20 h-20 object-cover object-center rounded-sm"
-                          width={100}
-                          height={100}
-                        />
+                        <div className="relative w-40 h-40">
+                          <Image
+                            src={field.value || ""}
+                            alt="product image"
+                            className="w-20 h-20 object-cover object-center rounded-sm"
+                            fill
+                          />
+                          <button
+                            type="button"
+                            className="cursor-pointer"
+                            onClick={() => {
+                              const key = form.getValues("imageKey");
+                              if (key) {
+                                handleDeleteImage(key); // Only call if key is defined
+                              } else {
+                                toast({
+                                  variant: "destructive",
+                                  description: "Image key not found",
+                                });
+                              }
+                            }}
+                          >
+                            <XCircleIcon
+                              size={28}
+                              className="absolute top-0 right-0 text-red-600 m-1"
+                            />
+                          </button>
+                        </div>
                       )}
 
                       <FormControl>
@@ -140,6 +174,7 @@ export default function MonthlyDealForm({
                           endpoint="imageUploader"
                           onClientUploadComplete={(res: any) => {
                             form.setValue("image", res[0].url);
+                            form.setValue("imageKey", res[0].key);
                           }}
                           onUploadError={(error: Error) => {
                             toast({

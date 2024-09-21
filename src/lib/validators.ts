@@ -203,8 +203,28 @@ export const insertMonthlyDealSchema = z.object({
   endDate: z.date({
     required_error: "Крайната дата е задължителна",
   }),
+  imageKey: z.string().optional().nullable(),
 });
 
 export const updateMonthlyDealSchema = insertMonthlyDealSchema.extend({
   id: z.string().uuid(), // Ensure id is a valid UUID for updating the deal
+});
+
+export const insertHeroImage = z.object({
+  image: z.string().min(1, { message: "Image URL is required" }),
+  imageKey: z.string().min(1, { message: "Image key is required" }),
+  heroSectionId: z.string().uuid().optional(),
+});
+
+export const insertHeroSection = z.object({
+  text: z.string().min(1, "Описанието е задължително"),
+  images: z.array(insertHeroImage).optional(),
+  isActive: z.boolean(),
+});
+
+export const updateHeroSection = z.object({
+  id: z.string().uuid(),
+  text: z.string().min(1, "Описанието е задължително"),
+  images: z.array(insertHeroImage).optional(),
+  isActive: z.boolean(),
 });

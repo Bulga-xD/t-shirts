@@ -5,47 +5,54 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const ProductPromotion = ({ deal }: { deal: MonthlyDeal }) => {
-  const calculateTimeLeft = () => {
-    const currentTime = new Date().getTime();
-    const endDate =
-      deal.endDate instanceof Date ? deal.endDate : new Date(deal.endDate);
-    const endTime = endDate.getTime();
-
-    const timeDifference = endTime - currentTime;
-
-    if (timeDifference > 0) {
-      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-      return { days, hours, minutes, seconds };
-    } else {
-      return null;
-    }
-  };
-
-  const [time, setTime] = useState(calculateTimeLeft());
+const ProductPromotion = ({ deal }: { deal: MonthlyDeal | null }) => {
+  const [time, setTime] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
 
   useEffect(() => {
-    if (!time) return; // Don't set up timer if deal has already expired
+    if (!deal) return;
+
+    const calculateTimeLeft = () => {
+      const currentTime = new Date().getTime();
+      const endDate =
+        deal.endDate instanceof Date ? deal.endDate : new Date(deal.endDate);
+      const endTime = endDate.getTime();
+      const timeDifference = endTime - currentTime;
+
+      if (timeDifference > 0) {
+        const totalSeconds = Math.floor(timeDifference / 1000);
+
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        return { days, hours, minutes, seconds };
+      } else {
+        return null;
+      }
+    };
+
+    setTime(calculateTimeLeft());
 
     const timerInterval = setInterval(() => {
       const newTime = calculateTimeLeft();
       setTime(newTime);
-
       if (!newTime) {
         clearInterval(timerInterval);
       }
     }, 1000);
 
     return () => clearInterval(timerInterval);
-  }, [deal.endDate]);
+  }, [deal]);
+
+  if (!deal) {
+    return null;
+  }
 
   if (!time) {
     return (

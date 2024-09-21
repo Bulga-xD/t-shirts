@@ -1,5 +1,3 @@
-import { APP_NAME } from "@/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import MainNav from "./main-nav";
@@ -15,25 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
 import Search from "@/components/shared/header/search";
-
-const links = [
-  {
-    title: "Прглед",
-    href: "/admin/overview",
-  },
-  {
-    title: "Продукти",
-    href: "/admin/products",
-  },
-  {
-    title: "Поръчки",
-    href: "/admin/orders",
-  },
-  {
-    title: "Потребители",
-    href: "/admin/users",
-  },
-];
+import { links } from "@/lib/constants";
 
 export default async function AdminLayout({
   children,
@@ -65,7 +45,13 @@ export default async function AdminLayout({
                             asChild
                           >
                             <DrawerClose asChild>
-                              <Link href={link.href}>{link.title}</Link>
+                              <Link
+                                className="flex gap-1 justify-start items-center"
+                                href={link.href}
+                              >
+                                <link.icon />
+                                {link.title}
+                              </Link>
                             </DrawerClose>
                           </Button>
                         ))}
@@ -78,7 +64,6 @@ export default async function AdminLayout({
                 <p className="font-another-danger">VANDALL</p>
               </Link>
             </div>
-            <MainNav className="hidden sm:flex" />
             <div className="hidden md:block">
               <Search />
             </div>
@@ -88,7 +73,10 @@ export default async function AdminLayout({
             <Search />
           </div>
         </header>
-        <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
+        <div className="flex gap-12 space-y-4 pr-8">
+          <MainNav className="hidden sm:flex pt-6" />
+          <section className="flex-1">{children}</section>
+        </div>
       </div>
     </>
   );

@@ -1,36 +1,11 @@
 "use client";
 
+import { links } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
-const links = [
-  {
-    title: "Прглед",
-    href: "/admin/overview",
-  },
-  {
-    title: "Продукти",
-    href: "/admin/products",
-  },
-  {
-    title: "Поръчки",
-    href: "/admin/orders",
-  },
-  {
-    title: "Потребители",
-    href: "/admin/users",
-  },
-  {
-    title: "Пормоции",
-    href: "/admin/monthly-deals",
-  },
-  {
-    title: "Ревюта",
-    href: "/admin/user-reviews",
-  },
-];
 
 export default function MainNav({
   className,
@@ -39,7 +14,10 @@ export default function MainNav({
   const pathname = usePathname();
   return (
     <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+      className={cn(
+        "flex flex-col items-start gap-4 h-[calc(100vh-80px)] bg-slate-100 p-8",
+        className
+      )}
       {...props}
     >
       {links.map((item) => (
@@ -47,10 +25,11 @@ export default function MainNav({
           key={item.href}
           href={item.href}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
+            "text-xl flex gap-1 items-center font-medium transition-colors hover:text-primary",
             pathname.includes(item.href) ? "" : "text-muted-foreground"
           )}
         >
+          <item.icon />
           {item.title}
         </Link>
       ))}
