@@ -15,7 +15,7 @@ export default function MainNav({
   return (
     <nav
       className={cn(
-        "sticky top-[80px] flex flex-col items-start gap-4 min-h-[calc(100vh-80px)] overflow-y-auto bg-slate-100 p-8",
+        "sticky top-[80px] flex flex-col items-start gap-4 h-[calc(100vh-80px)] overflow-y-auto bg-slate-100 p-8",
         className
       )}
       {...props}
