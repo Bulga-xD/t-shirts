@@ -75,8 +75,14 @@ const ProductPromotion = ({ deal }: { deal: MonthlyDeal | null }) => {
             label={time.hours <= 1 ? "Час" : "Часа"}
             value={time.hours}
           />
-          <StatBox label="Минути" value={time.minutes} />
-          <StatBox label="Секунди" value={time.seconds} />
+          <StatBox
+            label={time.minutes <= 1 ? "Минута" : "Минути"}
+            value={time.minutes}
+          />
+          <StatBox
+            label={time.seconds === 1 ? "Секунда" : "Секунди"}
+            value={time.seconds}
+          />
         </ul>
         <div className="text-center mt-4">
           <Button asChild>
