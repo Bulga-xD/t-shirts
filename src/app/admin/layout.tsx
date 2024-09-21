@@ -23,7 +23,7 @@ export default async function AdminLayout({
   return (
     <>
       <div className="flex flex-col">
-        <header className="w-full border-b sticky top-0 z-50 bg-white dark:bg-black">
+        <header className="w-full border-b sticky h-20 top-0 z-50 bg-white dark:bg-black">
           <div className="wrapper flex-between px-8 py-4">
             <div className="flex-start gap-2">
               <div className="block sm:hidden">
@@ -73,9 +73,9 @@ export default async function AdminLayout({
             <Search />
           </div>
         </header>
-        <div className="flex gap-12 space-y-4 pr-8">
+        <div className="flex gap-12 pr-8">
           <MainNav className="hidden sm:flex pt-6" />
-          <section className="flex-1">{children}</section>
+          <section className="flex-1 py-5">{children}</section>
         </div>
       </div>
     </>

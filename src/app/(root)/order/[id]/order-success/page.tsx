@@ -24,7 +24,7 @@ export default async function SuccessPage({
   if (!order) notFound();
 
   return (
-    <div className="max-w-4xl w-full mx-auto space-y-8">
+    <div className="max-w-4xl w-full mx-auto space-y-8 py-5">
       <div className="flex flex-col gap-6 items-center ">
         <h1 className="h1-bold">Благодаря за покупката!</h1>
         <div>В момента обработваме вашата поръчка.</div>

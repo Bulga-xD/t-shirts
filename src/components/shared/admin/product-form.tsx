@@ -98,7 +98,7 @@ export default function ProductForm({
       <form
         method="post"
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
+        className="space-y-8 pb-5"
       >
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
@@ -198,7 +198,7 @@ export default function ProductForm({
                     {sizes.map((item) => (
                       <FormItem
                         key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
+                        className="flex flex-row items-start space-x-1 space-y-0"
                       >
                         <FormControl>
                           <Checkbox
@@ -246,7 +246,7 @@ export default function ProductForm({
                     {colors.map((item) => (
                       <FormItem
                         key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
+                        className="flex flex-row items-start space-x-1 space-y-0"
                       >
                         <FormControl>
                           <Checkbox

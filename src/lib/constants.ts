@@ -6,6 +6,8 @@ import {
   MessageCircleHeart,
   Shirt,
   UsersRound,
+  Palette,
+  Ruler,
 } from "lucide-react";
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "VANDALL";
@@ -119,4 +121,22 @@ export const links = [
     href: "/admin/hero-section",
     icon: Images,
   },
+  {
+    title: "Цветове",
+    href: "/admin/colors",
+    icon: Palette,
+  },
+  {
+    title: "Размери",
+    href: "/admin/sizes",
+    icon: Ruler,
+  },
 ];
+
+export const ColorDefaultValues = {
+  label: "",
+};
+
+export const SizeDefaultValues = {
+  label: "",
+};

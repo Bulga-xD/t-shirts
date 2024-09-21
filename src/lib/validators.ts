@@ -228,3 +228,13 @@ export const updateHeroSection = z.object({
   images: z.array(insertHeroImage).optional(),
   isActive: z.boolean(),
 });
+
+export const colorSchema = z.object({
+  id: z.string().min(1, "Невалиден ID за цвят"),
+  label: z.string().min(1, "Името за цветът е задължително"),
+});
+
+export const sizeSchema = z.object({
+  id: z.string().min(1, "Невалиден ID за цвят"),
+  label: z.string().min(1, "Името за цветът е задължително"),
+});
