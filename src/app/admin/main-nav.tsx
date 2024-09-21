@@ -30,10 +30,16 @@ export default function MainNav({
               className
             )}
           >
-            <ChevronLeft
+            {/* <ChevronLeft
               className="self-end cursor-pointer"
               onClick={() => setShowNav(false)}
-            />
+            /> */}
+            <button
+              className="self-end cursor-pointer"
+              onClick={() => setShowNav(false)}
+            >
+              <ChevronLeft />
+            </button>
             {links.map((item) => (
               <Link
                 key={item.href}
