@@ -71,7 +71,10 @@ const ProductPromotion = ({ deal }: { deal: MonthlyDeal | null }) => {
 
         <ul className="grid grid-cols-4 gap-2">
           <StatBox label="Дни" value={time.days} />
-          <StatBox label="Часове" value={time.hours} />
+          <StatBox
+            label={time.hours <= 1 ? "Час" : "Часа"}
+            value={time.hours}
+          />
           <StatBox label="Минути" value={time.minutes} />
           <StatBox label="Секунди" value={time.seconds} />
         </ul>
