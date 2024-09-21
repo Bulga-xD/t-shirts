@@ -29,7 +29,6 @@ export default function MainNav({
               `fixed top-[80px] left-0 flex-col items-start gap-4 h-[calc(100vh-80px)] w-64 overflow-y-auto bg-slate-100 p-8 dark:bg-slate-800 dark:text-white shadow-lg z-50`,
               className
             )}
-            {...props}
           >
             <ChevronLeft
               className="self-end cursor-pointer"
