@@ -30,10 +30,6 @@ export default function MainNav({
               className
             )}
           >
-            {/* <ChevronLeft
-              className="self-end cursor-pointer"
-              onClick={() => setShowNav(false)}
-            /> */}
             <button
               className="self-end cursor-pointer"
               onClick={() => setShowNav(false)}
