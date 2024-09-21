@@ -1,4 +1,3 @@
-import AddToCart from "@/components/shared/product/add-to-cart";
 import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
 import Rating from "@/components/shared/product/rating";
