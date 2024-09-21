@@ -69,7 +69,7 @@ export const UserReviewDefaultValues = {
   name: "",
   title: "",
   text: "",
-  rating: 0,
+  rating: undefined,
 };
 
 export const MonthlyDealDefaultValues = {

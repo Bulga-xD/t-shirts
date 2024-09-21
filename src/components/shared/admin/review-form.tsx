@@ -105,12 +105,18 @@ export default function CreateReviewForm({
             name="rating"
             render={({ field }: { field: any }) => (
               <FormItem className="w-full">
-                <FormLabel>Рейтинг</FormLabel>
+                <FormLabel>Рейтинг (1-5)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     placeholder="Въведете рейтинг (1-5)"
-                    {...field}
+                    value={field.value !== undefined ? field.value : ""}
+                    onChange={(e) => {
+                      const value = e.target.value
+                        ? Number(e.target.value)
+                        : undefined; // Convert to number or set to undefined
+                      field.onChange(value); // Update form state
+                    }}
                   />
                 </FormControl>
 
