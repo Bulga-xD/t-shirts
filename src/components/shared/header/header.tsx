@@ -66,6 +66,15 @@ const Header = async () => {
                       <Link href={`/user-review`}>Дабвете ревю</Link>
                     </DrawerClose>
                   </Button>
+                  <Button
+                    className="w-full justify-start"
+                    variant="ghost"
+                    asChild
+                  >
+                    <DrawerClose asChild>
+                      <Link href={`/terms`}>Общи условия</Link>
+                    </DrawerClose>
+                  </Button>
                 </DrawerHeader>
               </DrawerContent>
             </Drawer>
