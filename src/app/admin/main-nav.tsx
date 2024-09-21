@@ -26,9 +26,10 @@ export default function MainNav({
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className={cn(
-              `sticky top-[80px] flex-col items-start gap-4 h-[calc(100vh-80px)] overflow-y-auto bg-slate-100 p-8 dark:bg-slate-800 dark:text-white`,
+              `fixed top-[80px] left-0 flex-col items-start gap-4 h-[calc(100vh-80px)] w-64 overflow-y-auto bg-slate-100 p-8 dark:bg-slate-800 dark:text-white shadow-lg z-50`,
               className
             )}
+            {...props}
           >
             <ChevronLeft
               className="self-end cursor-pointer"
@@ -51,14 +52,14 @@ export default function MainNav({
         )}
       </AnimatePresence>
 
-      {!showNav && (
-        <button
-          onClick={() => setShowNav(true)}
-          className="fixed top-[80px] left-0 lg:p-1.5 bg-slate-100 dark:bg-slate-800 dark:text-white"
-        >
-          <ChevronRight />
-        </button>
-      )}
+      <button
+        onClick={() => setShowNav(true)}
+        className={`fixed top-[80px] left-0 lg:p-1 xl:p-2 bg-slate-100 dark:bg-slate-800 dark:text-white z-50 ${
+          showNav ? "hidden" : "block"
+        }`}
+      >
+        <ChevronRight />
+      </button>
     </>
   );
 }
