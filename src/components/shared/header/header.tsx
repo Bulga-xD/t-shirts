@@ -40,6 +40,15 @@ const Header = async () => {
               <DrawerContent className="h-full max-w-sm">
                 <DrawerHeader>
                   <DrawerTitle>Изберете категория</DrawerTitle>
+                  <Button
+                    className="w-full justify-start"
+                    variant="ghost"
+                    asChild
+                  >
+                    <DrawerClose asChild>
+                      <Link href={`/search`}>Всички продукти</Link>
+                    </DrawerClose>
+                  </Button>
                   <div className="space-y-1">
                     {categories.map((category) => (
                       <Button

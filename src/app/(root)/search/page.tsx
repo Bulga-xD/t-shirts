@@ -126,7 +126,7 @@ export default async function SearchPage({
     rating,
     page: Number(page),
     sort,
-    limit: 9,
+    limit: 12,
   });
   return (
     <div className="grid md:grid-cols-5 md:gap-5 px-10">
