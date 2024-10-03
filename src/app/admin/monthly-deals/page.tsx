@@ -36,6 +36,7 @@ const MonthlyDeal = async ({
             <TableRow>
               <TableHead>ИД</TableHead>
               <TableHead>Създадено на</TableHead>
+              <TableHead>Изтича на</TableHead>
               <TableHead className="w-[100px]">ДЕЙСТВИЯ</TableHead>
             </TableRow>
           </TableHeader>
@@ -43,7 +44,20 @@ const MonthlyDeal = async ({
             {deals?.map((deal) => (
               <TableRow key={deal.id}>
                 <TableCell>{formatId(deal.id)}</TableCell>
-                <TableCell>{deal.createdAt.toDateString()}</TableCell>
+                <TableCell>
+                  {deal.createdAt.toLocaleString("bg-BG", {
+                    timeZone: "Europe/Sofia",
+                    dateStyle: "full",
+                    timeStyle: "short",
+                  })}
+                </TableCell>
+                <TableCell>
+                  {deal.endDate.toLocaleString("bg-BG", {
+                    timeZone: "Europe/Sofia",
+                    dateStyle: "full",
+                    timeStyle: "short",
+                  })}
+                </TableCell>
 
                 <TableCell className="flex gap-1">
                   <Button asChild variant="outline" size="sm">
