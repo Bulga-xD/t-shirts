@@ -21,10 +21,10 @@ export const sendOrderEmail = async (order: Order) => {
     <PurchaseReceiptEmail order={order} colors={colors} />
   );
 
-  const emails = ["ch.tonchev94@gmail.com", order.user.email];
+  const emails = [process.env.ADMIN_MAIL!, order.user.email];
 
   const options = {
-    from: "chokobg@gmail.com",
+    from: process.env.ADMIN_MAIL!,
     to: emails,
     subject: `Поръчка #${order.id}`,
     html,
