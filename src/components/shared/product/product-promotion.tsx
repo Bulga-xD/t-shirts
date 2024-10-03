@@ -99,7 +99,7 @@ const ProductPromotion = ({ deal }: { deal: MonthlyDeal | null }) => {
 };
 
 const StatBox = ({ label, value }: { label: string; value: number }) => (
-  <li className="p-4 w-full text-center bg-gray-100 rounded-lg">
+  <li className="p-4 w-full text-center bg-gray-100 rounded-lg dark:bg-secondary dark:text-white">
     <p className="text-3xl font-bold">{value}</p>
     <p className="text-sm">{label}</p>
   </li>
