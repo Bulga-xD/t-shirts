@@ -75,11 +75,13 @@ export default function MonthlyDealForm({
       }
     }
     if (type === "Update") {
-      if (!dealId) {
+      if (!deal || !deal.id) {
         router.push(`/admin/monthly-deals`);
         return;
       }
-      const res = await updateDeal({ ...values, id: dealId });
+
+      const res = await updateDeal({ ...values, id: deal.id });
+
       if (!res.success) {
         toast({
           variant: "destructive",
@@ -220,7 +222,7 @@ export default function MonthlyDealForm({
           >
             {form.formState.isSubmitting
               ? "Създаване..."
-              : `${type === "Create" ? "Добави" : "Промени"} Продукт `}
+              : `${type === "Create" ? "Добави" : "Промени"} Промицията`}
           </Button>
         </div>
       </form>

@@ -85,7 +85,10 @@ export const updateDeal = async (
   data: z.infer<typeof updateMonthlyDealSchema>
 ) => {
   try {
+    console.log(data);
+
     const deal = updateMonthlyDealSchema.parse(data);
+
     const dealExists = await db.monthlyDeal.findUnique({
       where: {
         id: deal.id,
