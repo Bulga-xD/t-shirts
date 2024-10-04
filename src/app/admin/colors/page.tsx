@@ -25,7 +25,7 @@ export default async function Colors({
   searchParams: { page: string };
 }) {
   const session = await auth();
-  if (session?.user.role !== "admin")
+  if (!["admin", "superAdmin"].includes(session?.user.role!))
     throw new Error("admin permission required");
 
   const page = Number(searchParams.page) || 1;

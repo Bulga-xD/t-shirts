@@ -26,16 +26,17 @@ export default async function AdminUser({
   searchParams: { page: string };
 }) {
   const session = await auth();
-  if (session?.user.role !== "admin")
+  if (!["admin", "superAdmin"].includes(session?.user.role!))
     throw new Error("admin permission required");
 
   const page = Number(searchParams.page) || 1;
-  const allUsers = await getAllUsers({
+  const users = await getAllUsers({
     page,
     limit: 9,
   });
 
-  const users = allUsers.data.filter((user) => user.role !== "superAdmin");
+  const isCurrentUserSuperAdmin = session?.user.role === "superAdmin";
+  console.log(session?.user.role);
 
   return (
     <div className="space-y-2">
@@ -52,24 +53,28 @@ export default async function AdminUser({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users.data.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{formatId(user.id)}</TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell className="flex gap-1">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={`/admin/users/${user.id}`}>Редактирай</Link>
-                  </Button>
-                  <DeleteDialog id={user.id} action={deleteUser} />
+                  {(isCurrentUserSuperAdmin || user.role !== "superAdmin") && (
+                    <>
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={`/admin/users/${user.id}`}>Редактирай</Link>
+                      </Button>
+                      <DeleteDialog id={user.id} action={deleteUser} />
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        {allUsers?.totalPages! > 1 && (
-          <Pagination page={page} totalPages={allUsers?.totalPages!} />
+        {users?.totalPages! > 1 && (
+          <Pagination page={page} totalPages={users?.totalPages!} />
         )}
       </div>
     </div>

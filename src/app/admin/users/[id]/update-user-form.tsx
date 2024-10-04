@@ -64,6 +64,9 @@ export default function UpdateUserForm({
     }
   }
 
+  const roles =
+    user.role === "superAdmin" ? [...USER_ROLES, "superAdmin"] : USER_ROLES;
+
   return (
     <Form {...form}>
       <form
@@ -122,7 +125,7 @@ export default function UpdateUserForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {USER_ROLES.map((role) => (
+                    {roles.map((role) => (
                       <SelectItem key={role} value={role}>
                         {role}
                       </SelectItem>

@@ -53,14 +53,14 @@ export default async function UserButton() {
             </Link>
           </DropdownMenuItem>
 
-          {session.user.role === "admin" ||
-            (session.user.role === "superAdmin" && (
-              <DropdownMenuItem>
-                <Link className="w-full" href="/admin/overview">
-                  Админ
-                </Link>
-              </DropdownMenuItem>
-            ))}
+          {(session.user.role === "admin" ||
+            session.user.role === "superAdmin") && (
+            <DropdownMenuItem>
+              <Link className="w-full" href="/admin/overview">
+                Админ
+              </Link>
+            </DropdownMenuItem>
+          )}
 
           <DropdownMenuItem className="p-0 mb-1">
             <form action={SignOut} className="w-full">

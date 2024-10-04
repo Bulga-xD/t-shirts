@@ -29,7 +29,7 @@ const UserReviewsAdminPage = async ({
   searchParams: { page: string };
 }) => {
   const session = await auth();
-  if (session?.user.role !== "admin")
+  if (!["admin", "superAdmin"].includes(session?.user.role!))
     throw new Error("admin permission required");
 
   const { data: reviews, totalPages } = await getAllUserReviews({
