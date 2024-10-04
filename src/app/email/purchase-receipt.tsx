@@ -20,7 +20,11 @@ type OrderInformationProps = {
   colors: ColorType[];
 };
 
-const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
+const dateFormatter = new Intl.DateTimeFormat("bg-BG", {
+  timeZone: "Europe/Sofia",
+  dateStyle: "medium",
+  timeStyle: "short",
+});
 
 export default function PurchaseReceiptEmail({
   order,
@@ -120,6 +124,7 @@ export default function PurchaseReceiptEmail({
                   </Column>
                 </Row>
               ))}
+              <Text>Номер за връзка: {order.phoneNumber}</Text>
             </Section>
           </Container>
         </Body>

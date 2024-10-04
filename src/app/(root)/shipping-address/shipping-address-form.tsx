@@ -104,6 +104,24 @@ export default function ShippingAddressForm({
                 )}
               />
             </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }: { field: any }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Тел. номер</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Въведете телефонен номер..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}

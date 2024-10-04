@@ -50,6 +50,9 @@ export const shippingAddressSchema = z.object({
   country: z.string().min(3, "Държавата трябва да съдържа поне 3 символа"),
   lat: z.number().optional(),
   lng: z.number().optional(),
+  phoneNumber: z
+    .string()
+    .min(10, "Телефонния номер трябва да е поне 10 символа"),
 });
 
 export const paymentMethodSchema = z
@@ -92,9 +95,11 @@ export const updateProfileSchema = z.object({
   email: z.string().email().min(3, "Имейлът трябва да е поне 3 символа"),
 });
 
+const RoleEnum = z.enum(["superAdmin", "admin", "user"]);
+
 export const updateUserSchema = updateProfileSchema.extend({
   id: z.string().min(1, "ИД-то е задължително"),
-  role: z.string().min(1, "Ролята е задължителна"),
+  role: RoleEnum,
 });
 
 export const insertProductSchema = z.object({

@@ -34,6 +34,7 @@ export const shippingAddressDefaultValues = {
   city: "",
   postalCode: "",
   country: "",
+  phoneNumber: "",
 };
 
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 3;

@@ -40,7 +40,7 @@ const UserReviews = ({ reviews }: { reviews: UserReviewType[] }) => {
     <section id="reviews" className="flex flex-col gap-4">
       <div className="flex flex-col gap-4 lg:flex-row justify-between mb-10">
         <h2 className="text-3xl font-bold">
-          Над 30,000+ Доволни Клиенти избрали VANDALL!
+          Над 50 Доволни Клиенти избрали VANDALL!
         </h2>
         <div className="space-x-2">
           <Button variant="outline" onClick={handlePrevious}>

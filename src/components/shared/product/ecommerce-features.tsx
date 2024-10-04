@@ -35,7 +35,7 @@ const EcommerceFeatures = () => {
 
           <div className="space-y-2">
             <Medal size={40} />
-            <div className="text-sm font-bold">Световни качество</div>
+            <div className="text-sm font-bold">Световно качество</div>
             <div className="text-sm text-muted-foreground">
               Избработени от лидери в индустрията
             </div>

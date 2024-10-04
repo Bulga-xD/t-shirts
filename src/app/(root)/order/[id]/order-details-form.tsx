@@ -119,6 +119,7 @@ export default function OrderDetailsForm({
                     {shippingAddress.streetAddress}, {shippingAddress.city},{" "}
                     {shippingAddress.postalCode}, {shippingAddress.country}{" "}
                   </p>
+                  <p>Телефон за връзка: {shippingAddress.phoneNumber}</p>
                 </>
               ) : (
                 <p>Адресът за доставка не е наличен</p>

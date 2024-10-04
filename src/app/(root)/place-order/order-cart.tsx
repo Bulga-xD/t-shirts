@@ -24,6 +24,7 @@ type Address = {
   city: string;
   postalCode: string;
   country: string;
+  phoneNumber: string;
 };
 
 export const OrderCart = ({
@@ -47,13 +48,14 @@ export const OrderCart = ({
     <div className="grid md:grid-cols-3 md:gap-5">
       <div className="overflow-x-auto md:col-span-2 space-y-4">
         <Card>
-          <CardContent className="p-4 gap-4">
+          <CardContent className="p-4 flex flex-col gap-2">
             <h2 className="text-xl pb-4">Адрес за доставка</h2>
             <p>{address?.fullName}</p>
             <p>
               {address?.streetAddress}, {address?.city}, {address?.postalCode},{" "}
               {address?.country}{" "}
             </p>
+            <p>Телефон за връзка: {address.phoneNumber}</p>
             <div>
               <Link href="/shipping-address">
                 <Button variant="outline">Промени</Button>
@@ -159,6 +161,7 @@ export const OrderCart = ({
               itemsPrice={itemsPrice}
               shippingPrice={shippingPrice}
               totalPrice={totalPrice}
+              phoneNumber={address.phoneNumber}
             />
           </CardContent>
         </Card>

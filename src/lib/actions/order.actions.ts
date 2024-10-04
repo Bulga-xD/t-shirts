@@ -66,9 +66,12 @@ export const createOrder = async (
   items: CartItem[],
   itemsPrice: number,
   shippingPrice: number,
-  totalPrice: number
+  totalPrice: number,
+  phoneNumber: string
 ) => {
   try {
+    console.log(phoneNumber);
+
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
 
@@ -82,6 +85,7 @@ export const createOrder = async (
       itemsPrice,
       shippingPrice,
       totalPrice,
+      phoneNumber,
     };
 
     const insertedOrder = await db.$transaction(async (tx) => {

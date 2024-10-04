@@ -30,10 +30,13 @@ export default async function AdminUser({
     throw new Error("admin permission required");
 
   const page = Number(searchParams.page) || 1;
-  const users = await getAllUsers({
+  const allUsers = await getAllUsers({
     page,
     limit: 9,
   });
+
+  const users = allUsers.data.filter((user) => user.role !== "superAdmin");
+
   return (
     <div className="space-y-2">
       <h1 className="h2-bold">Потребители</h1>
@@ -49,7 +52,7 @@ export default async function AdminUser({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users?.data.map((user) => (
+            {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{formatId(user.id)}</TableCell>
                 <TableCell>{user.name}</TableCell>
@@ -65,8 +68,8 @@ export default async function AdminUser({
             ))}
           </TableBody>
         </Table>
-        {users?.totalPages! > 1 && (
-          <Pagination page={page} totalPages={users?.totalPages!} />
+        {allUsers?.totalPages! > 1 && (
+          <Pagination page={page} totalPages={allUsers?.totalPages!} />
         )}
       </div>
     </div>

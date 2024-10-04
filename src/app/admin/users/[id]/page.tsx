@@ -19,6 +19,8 @@ export default async function UpdateUserPage({
 }) {
   const user = await getUserById(id);
   if (!user) notFound();
+  if (user.role === "superAdmin") return notFound();
+
   return (
     <div className="space-y-8 max-w-lg mx-auto">
       <h1 className="h2-bold">Редактирай потребител</h1>

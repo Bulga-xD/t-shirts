@@ -10,17 +10,25 @@ export default function PlaceOrderForm({
   itemsPrice,
   shippingPrice,
   totalPrice,
+  phoneNumber,
 }: {
   items: CartItem[];
   itemsPrice: number;
   shippingPrice: number;
   totalPrice: number;
+  phoneNumber: string;
 }) {
   const createOrderWrapper = async (state: {
     success: boolean;
     message: any;
   }) => {
-    return await createOrder(items, itemsPrice, shippingPrice, totalPrice);
+    return await createOrder(
+      items,
+      itemsPrice,
+      shippingPrice,
+      totalPrice,
+      phoneNumber
+    );
   };
 
   const [data, action] = useFormState(createOrderWrapper, {

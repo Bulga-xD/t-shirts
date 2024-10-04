@@ -28,7 +28,7 @@ export default async function Home() {
       </div>
       <div className="space-y-8 max-w-7xl m-auto p-5 md:px-10">
         <ProductList title="Нови попълнения" data={products} />
-        <ProductPromotion deal={featuredProduct} />
+        {/* <ProductPromotion deal={featuredProduct} /> */}
         <UserReviews reviews={userReviews.data} />
       </div>
     </div>
