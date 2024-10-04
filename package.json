@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "prisma-seed": "tsx prisma/seed.ts",
-    "stripe-listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "postinstall": "prisma generate"
   },
   "dependencies": {
