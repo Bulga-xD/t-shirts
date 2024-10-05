@@ -224,14 +224,14 @@ export const insertHeroImage = z.object({
 export const insertHeroSection = z.object({
   text: z.string().min(1, "Описанието е задължително"),
   images: z.array(insertHeroImage).optional(),
-  isActive: z.boolean(),
+  isActive: z.boolean().optional(),
 });
 
 export const updateHeroSection = z.object({
   id: z.string().uuid(),
   text: z.string().min(1, "Описанието е задължително"),
   images: z.array(insertHeroImage).optional(),
-  isActive: z.boolean(),
+  isActive: z.boolean().optional(),
 });
 
 export const colorSchema = z.object({
