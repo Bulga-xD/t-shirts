@@ -14,7 +14,7 @@ const ProductList = ({ title, data }: { title: string; data: Product[] }) => {
         </div>
       ) : (
         <div>
-          <p>No product found</p>
+          <p>В момента няма налични продукти.</p>
         </div>
       )}
     </>
