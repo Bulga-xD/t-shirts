@@ -12,8 +12,8 @@ const Footer = () => {
           <div className="flex flex-col gap-1 text-muted-foreground text-sm">
             <p> Делници: 10.00 - 20.00 ч.</p>
             <p> Неделя: 12.00 - 18.00 ч.</p>
-            <p> Магазин: +359 877 100 001</p>
-            <p> Поръчки: +359 877 100 002</p>
+            <p> Магазин: +359 123 456 789</p>
+            <p> Поръчки: +359 123 456 789</p>
           </div>
           <div className="flex gap-3">
             <Link
