@@ -95,14 +95,11 @@ model Product {
     banner      String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    stock       Int
     discount    Decimal?
 
-    orderItems OrderItem[]
-    reviews    Review[]
-
-    colors Color[] @relation("ProductColors")
-    sizes  Size[]  @relation("ProductSizes")
+    orderItems      OrderItem[]
+    reviews         Review[]
+    productVariants ProductVariant[]
 
     @@map("product")
 }
@@ -111,14 +108,28 @@ model Size {
     id    String @id @unique
     label String
 
-    products Product[] @relation("ProductSizes")
+    productVariants ProductVariant[]
 }
 
 model Color {
     id    String @id @unique
     label String
 
-    products Product[] @relation("ProductColors")
+    productVariants ProductVariant[]
+}
+
+model ProductVariant {
+    id        String  @id @default(uuid())
+    stock     Int
+    product   Product @relation(fields: [productId], references: [id])
+    productId String
+    size      Size    @relation(fields: [sizeId], references: [id])
+    sizeId    String
+    color     Color   @relation(fields: [colorId], references: [id])
+    colorId   String
+
+    @@unique([productId, sizeId, colorId])
+    @@map("product_variant")
 }
 
 model Cart {
@@ -158,6 +169,7 @@ model Order {
 }
 
 model OrderItem {
+    id        String  @default(uuid())
     orderId   String
     productId String
     qty       Int
@@ -171,7 +183,8 @@ model OrderItem {
     order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-    @@id([orderId, productId])
+    @@id([id])
+    @@unique([orderId, productId, size, color])
     @@map("orderItems")
 }
 

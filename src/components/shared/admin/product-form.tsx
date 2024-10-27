@@ -14,10 +14,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { productDefaultValues } from "@/lib/constants";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
-import { Product } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -25,7 +24,14 @@ import { UploadButton } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ColorType, SizeType } from "@/types";
+import { ColorType, Product, SizeType } from "@/types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ProductForm({
   type,
@@ -52,8 +58,14 @@ export default function ProductForm({
           ...product,
           price: Number(product.price),
           discount: Number(product.discount),
+          productVariants: product.productVariants.map((pv) => ({
+            id: pv.id,
+            sizeId: pv.sizeId,
+            colorId: pv.colorId,
+            stock: pv.stock,
+          })),
         }
-      : { ...productDefaultValues },
+      : productDefaultValues,
   });
 
   const { toast } = useToast();
@@ -89,6 +101,12 @@ export default function ProductForm({
       }
     }
   }
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "productVariants",
+  });
+
   const images = form.watch("images");
   const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
@@ -100,6 +118,87 @@ export default function ProductForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 pb-5"
       >
+        <div className="flex flex-wrap gap-2 items-center">
+          <FormLabel>Варианти</FormLabel>
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex items-center space-x-2 mt-2">
+              <FormField
+                control={form.control}
+                name={`productVariants.${index}.sizeId`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Изберете размер" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sizes.map((size) => (
+                            <SelectItem key={size.id} value={size.id}>
+                              {size.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`productVariants.${index}.colorId`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Изберете цвят" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {colors.map((color) => (
+                            <SelectItem key={color.id} value={color.id}>
+                              {color.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`productVariants.${index}.stock`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input type="number" placeholder="Наличност" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="button" onClick={() => remove(index)}>
+                Премахни
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="button"
+            onClick={() => append({ sizeId: "", colorId: "", stock: 0 })}
+            className="mt-2"
+          >
+            Добави вариант
+          </Button>
+        </div>
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
@@ -179,7 +278,7 @@ export default function ProductForm({
           />
         </div>
 
-        <div className="flex flex-col gap-5 md:flex-row">
+        {/* <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
             name="sizes"
@@ -275,7 +374,7 @@ export default function ProductForm({
               );
             }}
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
@@ -312,7 +411,7 @@ export default function ProductForm({
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="stock"
             render={({ field }: { field: any }) => (
@@ -328,7 +427,7 @@ export default function ProductForm({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col gap-5 md:flex-row">

@@ -13,6 +13,8 @@ import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
 import SizeSelector from "@/components/shared/product/select-size";
 import ColorSelector from "@/components/shared/product/select-color";
+import { getSizes } from "@/lib/actions/size.actions";
+import { getColors } from "@/lib/actions/color.actions";
 
 export async function generateMetadata({
   params,
@@ -31,7 +33,7 @@ export async function generateMetadata({
 
 const ProductDetails = async ({
   params: { slug },
-  searchParams: { page, color, size }, // Destructure size from searchParams
+  searchParams: { page, color, size },
 }: {
   params: { slug: string };
   searchParams: { page: string; color: string; size: string };
@@ -39,18 +41,52 @@ const ProductDetails = async ({
   const product = await getProductBySlug(slug);
   if (!product) notFound();
   const session = await auth();
+  const sizes = await getSizes();
+  const colors = await getColors();
+
+  const selectedVariant = product.productVariants.find(
+    (variant) => variant.sizeId === size && variant.colorId === color
+  );
+
+  const availableSizes = Array.from(
+    new Set(product.productVariants.map((variant) => variant.sizeId))
+  );
+  const availableColors = Array.from(
+    new Set(product.productVariants.map((variant) => variant.colorId))
+  );
 
   const stringValue = product.price.toString();
   const [intValue, floatValue] = stringValue.includes(".")
     ? stringValue.split(".")
     : [stringValue, ""];
 
+  const getStockMessage = (stock: number) => {
+    if (stock >= 2) return "Последни бройки";
+    if (stock === 1) return "Последна бройка";
+    return "";
+  };
+
+  const isVariantAvailable = (sizeId: string, colorId: string) => {
+    const variant = product.productVariants.find(
+      (v) => v.sizeId === sizeId && v.colorId === colorId
+    );
+    return variant && variant.stock > 0;
+  };
+
+  // Determine which sizes and colors to disable based on selection
+  const disabledSizes = size
+    ? availableSizes.filter((s) => !isVariantAvailable(s, color))
+    : [];
+  const disabledColors = color
+    ? availableColors.filter((c) => !isVariantAvailable(size, c))
+    : [];
+
   return (
     <>
       <section className="max-w-7xl m-auto p-5 md:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-5">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="col-span-2">
-            <ProductImages images={product.images!} />
+            <ProductImages images={product.images} />
           </div>
 
           <div className="col-span-2 flex flex-col w-full gap-8 p-5">
@@ -100,68 +136,71 @@ const ProductDetails = async ({
             </div>
 
             <section>
-              <h3 className="text-xl">Размери</h3>
-              <SizeSelector currentSize={size} sizes={product.sizes} />
+              <h3 className="text-xl mb-2">Размери</h3>
+              <SizeSelector
+                currentSize={size}
+                productSizes={availableSizes}
+                sizes={sizes}
+                disabledSizes={disabledSizes}
+              />
             </section>
 
             <section>
-              <h3 className="text-xl">Цветове</h3>
-              <ColorSelector currentColor={color} colors={product.colors} />
+              <h3 className="text-xl mb-2">Цветове</h3>
+              <ColorSelector
+                currentColor={color}
+                colors={colors}
+                productColors={availableColors}
+                disabledColors={disabledColors}
+              />
             </section>
 
             <div>
-              <p>Описание:</p>
+              <p className="font-semibold mb-2">Описание:</p>
               <p>{product.description}</p>
             </div>
           </div>
           <div>
-            <Card className="">
+            <Card>
               <CardContent className="p-4">
                 {product.discount && Number(product.discount) > 0 ? (
-                  <div className="flex gap-2">
-                    <p className="self-center">Цена</p>
-                    <div className="mb-2 flex justify-between text-sm text-gray-500 line-through self-center">
-                      <div>
-                        <ProductPrice
-                          className="text-base ml-1"
-                          value={Number(product.price)}
-                          withText={false}
-                        />
-                      </div>
+                  <div className="flex gap-2 items-center mb-4">
+                    <p className="text-sm">Цена</p>
+                    <div className="text-sm text-gray-500 line-through">
+                      <ProductPrice
+                        value={Number(product.price)}
+                        withText={false}
+                      />
                     </div>
-                    <div className="mb-2 flex justify-between sm:text-lg sm:items-center">
-                      <div>
-                        <ProductPrice
-                          className="font-semibold ml-1"
-                          value={Number(product.discount)}
-                          withText
-                        />
-                      </div>
+                    <div className="text-lg font-semibold">
+                      <ProductPrice value={Number(product.discount)} withText />
                     </div>
                   </div>
                 ) : (
-                  <div className="mb-2 flex justify-between sm:text-sm sm:items-center">
-                    <div>Цена</div>
-                    <div>
-                      <ProductPrice
-                        className="sm:text-xl ml-1"
-                        value={Number(product.price)}
-                      />
-                    </div>
+                  <div className="flex justify-between items-center mb-4">
+                    <p className="text-sm">Цена</p>
+                    <ProductPrice
+                      className="text-lg font-semibold"
+                      value={Number(product.price)}
+                      withText
+                    />
                   </div>
                 )}
 
                 <div className="mb-3 text-xl flex gap-1 md:flex-col md:items-center lg:flex justify-between">
-                  <div>Наличност</div>
-                  {product.stock > 0 ? (
-                    <Badge className="p-2" variant="outline">
-                      В наличност - {product.stock} бр.
-                    </Badge>
+                  {selectedVariant ? (
+                    selectedVariant.stock > 0 ? (
+                      <Badge className="p-2 text-lg" variant="outline">
+                        {getStockMessage(selectedVariant.stock)}
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive">Няма налични</Badge>
+                    )
                   ) : (
-                    <Badge variant="destructive">Няма налични</Badge>
+                    <Badge variant="secondary">Изберете размер и цвят</Badge>
                   )}
                 </div>
-                {product.stock !== 0 && (
+                {selectedVariant && selectedVariant.stock > 0 && (
                   <div className="flex-center">
                     <AddToCart
                       item={{
@@ -170,10 +209,10 @@ const ProductDetails = async ({
                         slug: product.slug,
                         price: round2(Number(product.price)),
                         qty: 1,
-                        image: product.images![0],
-                        size: size,
-                        color: color,
+                        image: product.images[0],
+                        variants: product.productVariants,
                       }}
+                      selectedVariant={selectedVariant}
                     />
                   </div>
                 )}

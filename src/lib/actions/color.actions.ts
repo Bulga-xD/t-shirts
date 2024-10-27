@@ -75,7 +75,6 @@ export const createColor = async (data: z.infer<typeof colorSchema>) => {
 export const updateColor = async (data: z.infer<typeof colorSchema>) => {
   try {
     const color = colorSchema.parse(data);
-    console.log(color);
 
     await db.color.update({
       where: {

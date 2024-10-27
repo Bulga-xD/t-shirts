@@ -16,7 +16,7 @@ import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import PlaceOrderForm from "./place-order-form";
-import { ColorType } from "@/types";
+import { ColorType, SizeType } from "@/types";
 
 type Address = {
   fullName: string;
@@ -30,9 +30,11 @@ type Address = {
 export const OrderCart = ({
   user,
   colors,
+  sizes,
 }: {
   user: User;
   colors: ColorType[];
+  sizes: SizeType[];
 }) => {
   const { items } = useCart();
 
@@ -83,41 +85,47 @@ export const OrderCart = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {items.map((item) => (
-                  <TableRow key={item.slug}>
-                    <TableCell>
-                      <Link
-                        href={`/product/${item.slug}`}
-                        className="flex items-center"
-                      >
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={50}
-                          height={50}
-                        ></Image>
-                        <span className="px-2">{item.name}</span>
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <span className="px-2">{item.qty}</span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="px-2">{item.size}</span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="px-2">
-                        {colors.find((c) => c.id === item.color)?.label}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {formatPrice(item.price, {
-                        currency: "BGN",
-                        IntlFormat: "bg-BG",
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {items.map((item, idx) => {
+                  const variant = item.variants[0];
+
+                  return (
+                    <TableRow key={idx}>
+                      <TableCell>
+                        <Link
+                          href={`/product/${item.slug}`}
+                          className="flex items-center"
+                        >
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          ></Image>
+                          <span className="px-2">{item.name}</span>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2">{item.qty}</span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2">
+                          {sizes.find((s) => s.id === variant.sizeId)?.label}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2">
+                          {colors.find((c) => c.id === variant.colorId)?.label}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        {formatPrice(item.price, {
+                          currency: "BGN",
+                          IntlFormat: "bg-BG",
+                        })}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
             <Link href="/cart">

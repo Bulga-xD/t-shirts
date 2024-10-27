@@ -10,6 +10,7 @@ import { PAGE_SIZE } from "../constants";
 import { db } from "@/database/client";
 import { revalidatePath } from "next/cache";
 import { sendOrderEmail } from "@/app/email";
+import { v4 as uuidv4 } from "uuid";
 
 export async function getOrderById(orderId: string) {
   return await db.order.findFirst({
@@ -70,8 +71,6 @@ export const createOrder = async (
   phoneNumber: string
 ) => {
   try {
-    console.log(phoneNumber);
-
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
 
@@ -94,18 +93,42 @@ export const createOrder = async (
         data: orderData,
       });
 
-      // Insert order items
+      // Group items by productId and combine their quantities
+      const groupedItems = items.reduce((acc, item) => {
+        // Create a unique key combining productId, size, and color
+        const key = `${item.productId}-${item.variants
+          .map((v) => v.sizeId)
+          .join(",")}-${item.variants.map((v) => v.colorId).join(",")}`;
+
+        if (!acc[key]) {
+          acc[key] = {
+            productId: item.productId,
+            name: item.name,
+            slug: item.slug,
+            price: parseFloat(item.price.toFixed(2)),
+            qty: 0,
+            image: item.image,
+            size: item.variants.map((v) => v.sizeId).join(", "),
+            color: item.variants.map((v) => v.colorId).join(", "),
+          };
+        }
+        acc[key].qty += item.qty;
+        return acc;
+      }, {} as Record<string, any>);
+
+      // Create order items with explicit id generation
       const orderItems = await Promise.all(
-        items.map((item) =>
+        Object.values(groupedItems).map((item) =>
           tx.orderItem.create({
             data: {
+              id: uuidv4(),
+              orderId: newOrder.id,
               productId: item.productId,
               name: item.name,
               slug: item.slug,
-              price: parseFloat(item.price.toFixed(2)),
+              price: item.price,
               qty: item.qty,
               image: item.image,
-              orderId: newOrder.id,
               size: item.size,
               color: item.color,
             },
@@ -156,8 +179,14 @@ export const updateOrderToPaid = async ({
 
   await db.$transaction(async (tx) => {
     for (const item of order.orderItems) {
-      await tx.product.update({
-        where: { id: item.productId },
+      await tx.productVariant.update({
+        where: {
+          productId_sizeId_colorId: {
+            productId: item.productId,
+            sizeId: item.size,
+            colorId: item.color,
+          },
+        },
         data: {
           stock: {
             decrement: item.qty,

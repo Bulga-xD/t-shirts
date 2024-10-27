@@ -12,7 +12,8 @@ import {
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "VANDALL";
 export const APP_DESCRIPTION =
-  process.env.NEXT_PUBLIC_APP_DESCRIPTION || "An E-Comeerce store for T-Shirts";
+  process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
+  "For the fearless, by the fearless";
 
 export const PAYMENT_METHOD = "Наложен платеж";
 
@@ -47,13 +48,9 @@ export const productDefaultValues = {
   brand: "",
   description: "",
   price: 0,
-  stock: 0,
-  rating: 0,
-  numReviews: 0,
   isFeatured: false,
-  sizes: [],
-  colors: [],
-  discoint: 0,
+  productVariants: [],
+  discount: 0,
 };
 
 export const USER_ROLES = process.env.USER_ROLES

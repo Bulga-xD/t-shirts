@@ -25,7 +25,7 @@ export default async function StorefrontProductQuickView(props: {
 
             <div className="flex items-center gap-4">
               <Rating value={Number(product.rating)} />
-              {product.stock > 0 ? (
+              {product.productVariants[0].stock > 0 ? (
                 <ProductPrice value={Number(product.price)} />
               ) : (
                 <p className="text-destructive">Няма в наличност</p>

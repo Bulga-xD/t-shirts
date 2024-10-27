@@ -35,8 +35,19 @@ export const cartItemSchema = z.object({
       (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(value)),
       "Price must have exactly two decimal places (e.g., 49.99)"
     ),
-  size: z.string(),
-  color: z.string(),
+  variants: z
+    .array(
+      z.object({
+        sizeId: z.string().min(1, "Невалиден ID за размер"),
+        colorId: z.string().min(1, "Невалиден ID за цвят"),
+        stock: z.coerce
+          .number()
+          .int()
+          .nonnegative()
+          .min(0, "Наличността трябва да е поне 0"),
+      })
+    )
+    .min(1, "Трябва да има поне един вариант"),
   discount: z.number().optional(),
 });
 
@@ -109,33 +120,25 @@ export const insertProductSchema = z.object({
   images: z.array(z.string()).min(1, "Моля добавете поне една снимка"),
   brand: z.string().min(3, "Марката трябва да е поне 3 символа"),
   description: z.string().min(10, "Описанието трябва да е поне 10 символа"),
-  stock: z.coerce
-    .number()
-    .int()
-    .nonnegative()
-    .min(0, "Наличността трябва да е поне 0"),
   price: z.coerce
     .number()
     .nonnegative()
     .min(0.01, "Цената трябва да е поне 0.01"),
   isFeatured: z.boolean(),
   banner: z.string().optional().nullable(),
-  colors: z
+  productVariants: z
     .array(
       z.object({
-        id: z.string().min(1, "Невалиден ID за цвят"),
-        label: z.string().min(1, "Стойността на цвета е задължителна"),
+        sizeId: z.string().min(1, "Невалиден ID за размер"),
+        colorId: z.string().min(1, "Невалиден ID за цвят"),
+        stock: z.coerce
+          .number()
+          .int()
+          .nonnegative()
+          .min(0, "Наличността трябва да е поне 0"),
       })
     )
-    .min(1, "Трябва да има поне един цвят"),
-  sizes: z
-    .array(
-      z.object({
-        id: z.string().min(1, "Невалиден ID за размер"),
-        label: z.string().min(1, "Стойността на размера е задължителна"),
-      })
-    )
-    .min(1, "Трябва да има поне един размер"),
+    .min(1, "Трябва да има поне един вариант"),
   discount: z.coerce.number().nonnegative().optional(),
 });
 
@@ -147,33 +150,26 @@ export const updateProductSchema = z.object({
   images: z.array(z.string()).min(1, "Моля добавете поне една снимка"),
   brand: z.string().min(3, "Марката трябва да е поне 3 символа"),
   description: z.string().min(10, "Описанието трябва да е поне 10 символа"),
-  stock: z.coerce
-    .number()
-    .int()
-    .nonnegative()
-    .min(0, "Наличността трябва да е поне 0"),
   price: z.coerce
     .number()
     .nonnegative()
     .min(0.01, "Цената трябва да е поне 0.01"),
   isFeatured: z.boolean(),
   banner: z.string().optional().nullable(),
-  colors: z
+  productVariants: z
     .array(
       z.object({
-        id: z.string().min(1, "Невалиден ID за цвят"),
-        label: z.string().min(1, "Стойността на цвета е задължителна"),
+        id: z.string().optional(),
+        sizeId: z.string().min(1, "Невалиден ID за размер"),
+        colorId: z.string().min(1, "Невалиден ID за цвят"),
+        stock: z.coerce
+          .number()
+          .int()
+          .nonnegative()
+          .min(0, "Наличността трябва да е поне 0"),
       })
     )
-    .min(1, "Трябва да има поне един цвят"),
-  sizes: z
-    .array(
-      z.object({
-        id: z.string().min(1, "Невалиден ID за размер"),
-        label: z.string().min(1, "Стойността на размера е задължителна"),
-      })
-    )
-    .min(1, "Трябва да има поне един размер"),
+    .min(1, "Трябва да има поне един вариант"),
   discount: z.coerce.number().nonnegative().optional(),
 });
 

@@ -43,7 +43,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Rating value={Number(product.rating)} />
-          {product.stock > 0 ? (
+          {product.productVariants[0].stock > 0 ? (
             product.discount && product.discount > 0 ? (
               <div className="flex gap-2 items-center">
                 <ProductPrice

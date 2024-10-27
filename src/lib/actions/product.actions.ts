@@ -14,8 +14,7 @@ export const getLatestProducts = async () => {
     },
     take: 4,
     include: {
-      sizes: true,
-      colors: true,
+      productVariants: true,
     },
   });
 
@@ -36,8 +35,7 @@ export const getProductBySlug = async (slug: string) => {
       slug,
     },
     include: {
-      sizes: true,
-      colors: true,
+      productVariants: true,
     },
   });
 };
@@ -127,8 +125,7 @@ export const getAllProducts = async ({
     skip: (page - 1) * limit,
     take: limit,
     include: {
-      sizes: true,
-      colors: true,
+      productVariants: true,
     },
   });
 
@@ -167,36 +164,44 @@ export const createProduct = async (
 ) => {
   try {
     const product = insertProductSchema.parse(data);
-    await db.product.create({
+
+    const createdProduct = await db.product.create({
       data: {
-        ...product,
-        price: Number(product.price),
-        stock: Number(product.stock),
-        colors: {
-          connectOrCreate: product.colors
-            ? product.colors.map((color) => ({
-                where: { id: color.id },
-                create: { id: color.id, label: color.label },
-              }))
-            : [],
-        },
-        sizes: {
-          connectOrCreate: product.sizes
-            ? product.sizes.map((size) => ({
-                where: { id: size.id },
-                create: { id: size.id, label: size.label },
-              }))
-            : [],
+        name: product.name,
+        slug: product.slug,
+        category: product.category,
+        images: product.images,
+        brand: product.brand,
+        description: product.description,
+        price: product.price,
+        isFeatured: product.isFeatured,
+        banner: product.banner,
+        discount: product.discount,
+        productVariants: {
+          create: product.productVariants.map((variant) => ({
+            sizeId: variant.sizeId,
+            colorId: variant.colorId,
+            stock: variant.stock,
+          })),
         },
       },
     });
+
     revalidatePath("/admin/products");
     return {
       success: true,
       message: "Успешно добавен продукт",
+      product: createdProduct,
     };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    console.error("Error creating product:", error);
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Възникна грешка при създаването на продукта",
+    };
   }
 };
 
@@ -212,6 +217,7 @@ export const updateProduct = async (
       },
     });
     if (!productExists) throw new Error("Product not found");
+
     await db.product.update({
       where: {
         id: product.id,
@@ -219,25 +225,33 @@ export const updateProduct = async (
       data: {
         ...product,
         price: Number(product.price),
-        stock: Number(product.stock),
-        colors: {
-          connectOrCreate: product.colors
-            ? product.colors.map((color) => ({
-                where: { id: color.id },
-                create: { id: color.id, label: color.label },
-              }))
-            : [],
-        },
-        sizes: {
-          connectOrCreate: product.sizes
-            ? product.sizes.map((size) => ({
-                where: { id: size.id },
-                create: { id: size.id, label: size.label },
-              }))
-            : [],
+        productVariants: {
+          upsert: product.productVariants.map((variant) => {
+            const uniqueId = variant.id ? { id: variant.id } : undefined;
+
+            return {
+              where: uniqueId || {
+                // Adjust this part to match your composite unique identifier if applicable
+                productId_sizeId_colorId: {
+                  productId: product.id, // Make sure this is the correct reference
+                  sizeId: variant.sizeId,
+                  colorId: variant.colorId,
+                },
+              },
+              create: {
+                sizeId: variant.sizeId,
+                colorId: variant.colorId,
+                stock: variant.stock,
+              },
+              update: {
+                stock: variant.stock,
+              },
+            };
+          }),
         },
       },
     });
+
     revalidatePath("/admin/products");
     return {
       success: true,
@@ -247,17 +261,21 @@ export const updateProduct = async (
     return { success: false, message: formatError(error) };
   }
 };
-
 export const getProductById = async (id: string) => {
-  return db.product.findUnique({
+  const product = await db.product.findUnique({
     where: {
       id,
     },
     include: {
-      sizes: true,
-      colors: true,
+      productVariants: true,
     },
   });
+
+  return {
+    ...product,
+    price: Number(product?.price || 0),
+    rating: Number(product?.rating || 0),
+  };
 };
 
 export const getLatestFeaturedProduct = async () => {

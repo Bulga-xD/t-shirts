@@ -59,7 +59,7 @@ export default async function AdminProductsPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products?.data.map((product) => (
+            {products?.data.map((product, idx) => (
               <TableRow key={product.id}>
                 <TableCell>{formatId(product.id)}</TableCell>
                 <TableCell>{product.name}</TableCell>
@@ -70,7 +70,7 @@ export default async function AdminProductsPage({
                   })}
                 </TableCell>
                 <TableCell>{product.category}</TableCell>
-                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.productVariants[idx].stock}</TableCell>
                 <TableCell>{Number(product.rating)}</TableCell>
                 <TableCell className="flex gap-1">
                   <Button asChild variant="outline" size="sm">

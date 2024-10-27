@@ -36,7 +36,6 @@ export default async function AdminUser({
   });
 
   const isCurrentUserSuperAdmin = session?.user.role === "superAdmin";
-  console.log(session?.user.role);
 
   return (
     <div className="space-y-2">

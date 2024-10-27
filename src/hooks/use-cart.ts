@@ -5,9 +5,9 @@ import { persist, createJSONStorage } from "zustand/middleware";
 type CartState = {
   items: CartItem[];
   addItem: (product: CartItem) => void;
-  decreaseItem: (productId: string, size: string) => void;
+  decreaseItem: (productId: string, sizeId: string, colorId: string) => void;
   clearCart: () => void;
-  removeItem: (productId: string) => void;
+  removeItem: (productId: string, sizeId: string, colorId: string) => void;
 };
 
 export const useCart = create<CartState>()(
@@ -18,7 +18,12 @@ export const useCart = create<CartState>()(
         set((state) => {
           const existingItemIndex = state.items.findIndex(
             (item) =>
-              item.productId === product.productId && item.size === product.size
+              item.productId === product.productId &&
+              item.variants.some(
+                (v) =>
+                  v.sizeId === product.variants[0]?.sizeId &&
+                  v.colorId === product.variants[0]?.colorId
+              )
           );
           const updatedItems = [...state.items];
 
@@ -26,60 +31,55 @@ export const useCart = create<CartState>()(
             const existingItem = state.items[existingItemIndex];
             const updatedItem = {
               ...existingItem,
-              qty: existingItem.qty! + 1,
+              qty: existingItem.qty + 1,
             };
             updatedItems[existingItemIndex] = updatedItem;
           } else {
             updatedItems.push({ ...product, qty: 1 });
           }
 
-          const newState = { ...state, items: updatedItems };
-
-          return newState;
+          return { ...state, items: updatedItems };
         }),
-      decreaseItem: (productId, size) =>
+      decreaseItem: (productId, sizeId, colorId) =>
         set((state) => {
           const existingItemIndex = state.items.findIndex(
-            (item) => item.productId === productId && item.size == size
+            (item) =>
+              item.productId === productId &&
+              item.variants.some(
+                (v) => v.sizeId === sizeId && v.colorId === colorId
+              )
           );
+
+          if (existingItemIndex === -1) return state;
 
           const existingItem = state.items[existingItemIndex];
           const updatedItems = [...state.items];
 
-          if (existingItem?.qty === 1) {
+          if (existingItem.qty === 1) {
             updatedItems.splice(existingItemIndex, 1);
           } else {
             const updatedItem = {
               ...existingItem,
-              qty: existingItem?.qty! - 1,
+              qty: existingItem.qty - 1,
             };
             updatedItems[existingItemIndex] = updatedItem;
           }
 
-          const newState = { ...state, items: updatedItems };
-
-          // Sync with DB if user is authenticated
-
-          return newState;
+          return { ...state, items: updatedItems };
         }),
-      clearCart: () =>
-        set((state) => {
-          const newState = { items: [] };
-
-          // Sync with DB if user is authenticated
-
-          return newState;
-        }),
-      removeItem: (productId) =>
-        set((state) => {
-          const newState = {
-            items: state.items.filter((item) => item.productId !== productId),
-          };
-
-          // Sync with DB if user is authenticated
-
-          return newState;
-        }),
+      clearCart: () => set({ items: [] }),
+      removeItem: (productId, sizeId, colorId) =>
+        set((state) => ({
+          items: state.items.filter(
+            (item) =>
+              !(
+                item.productId === productId &&
+                item.variants.some(
+                  (v) => v.sizeId === sizeId && v.colorId === colorId
+                )
+              )
+          ),
+        })),
     }),
     {
       name: "userCart",

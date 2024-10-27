@@ -7,6 +7,7 @@ import {
   UserReview as UserReviewModel,
   Color as ColorModel,
   Size as SizeModel,
+  ProductVariant,
 } from "@prisma/client";
 import {
   cartItemSchema,
@@ -24,16 +25,14 @@ export type Product = {
   images: string[];
   brand: string;
   description: string;
-  stock: number;
   price: number;
   rating: number;
   numReviews: number;
   isFeatured: boolean;
   banner: string | null;
   createdAt: Date;
-  colors: ColorType[];
-  sizes: SizeType[];
   discount: number | null;
+  productVariants: ProductVariant[];
 };
 
 // CART
@@ -57,3 +56,6 @@ export type Review = ReviewModel & {
 export type UserReview = UserReviewModel;
 export type ColorType = ColorModel;
 export type SizeType = SizeModel;
+export type ProductWithVariants = Product & {
+  productVariants: (ProductVariant & { size: SizeModel; color: ColorModel })[];
+};

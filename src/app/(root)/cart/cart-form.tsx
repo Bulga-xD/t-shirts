@@ -11,16 +11,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useCart } from "@/hooks/use-cart";
-import { getColorById } from "@/lib/actions/color.actions";
 import { formatPrice } from "@/lib/utils";
 import { ColorType } from "@/types";
+import { Size } from "@prisma/client";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-export default function CartForm({ colors }: { colors: ColorType[] }) {
+export default function CartForm({
+  colors,
+  sizes,
+}: {
+  colors: ColorType[];
+  sizes: Size[];
+}) {
   const router = useRouter();
   const { items, addItem, decreaseItem } = useCart();
 
@@ -59,61 +65,81 @@ export default function CartForm({ colors }: { colors: ColorType[] }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {items.map((item) => (
-                  <TableRow key={item.slug}>
-                    <TableCell>
-                      <Link
-                        href={`/product/${item.slug}`}
-                        className="flex items-center"
-                      >
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={50}
-                          height={50}
-                        ></Image>
-                        <span className="px-2">{item.name}</span>
-                      </Link>
-                    </TableCell>
-                    <TableCell className="flex-center gap-2">
-                      <Button
-                        disabled={isPending}
-                        variant="outline"
-                        type="button"
-                        onClick={() => decreaseItem(item.productId, item.size)}
-                      >
-                        {isPending ? (
-                          <Loader className="w-4 h-4  animate-spin" />
-                        ) : (
-                          <Minus className="w-4 h-4" />
-                        )}
-                      </Button>
-                      <span>{item.qty}</span>
-                      <Button
-                        disabled={isPending}
-                        variant="outline"
-                        type="button"
-                        onClick={() => addItem(item)}
-                      >
-                        {isPending ? (
-                          <Loader className="w-4 h-4  animate-spin" />
-                        ) : (
-                          <Plus className="w-4 h-4" />
-                        )}
-                      </Button>
-                    </TableCell>
-                    <TableCell className="text-center">{item.size}</TableCell>
-                    <TableCell className="text-center">
-                      {colors.find((c) => c.id === item.color)?.label}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {formatPrice(item.price, {
-                        currency: "BGN",
-                        IntlFormat: "bg-BG",
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {items.map((item) => {
+                  const selectedVariant = item.variants[0];
+
+                  console.log(item);
+
+                  return (
+                    <TableRow key={item.slug}>
+                      <TableCell>
+                        <Link
+                          href={`/product/${item.slug}`}
+                          className="flex items-center"
+                        >
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          ></Image>
+                          <span className="px-2">{item.name}</span>
+                        </Link>
+                      </TableCell>
+                      <TableCell className="flex-center gap-2">
+                        <Button
+                          disabled={isPending}
+                          variant="outline"
+                          type="button"
+                          onClick={() =>
+                            decreaseItem(
+                              item.productId,
+                              selectedVariant?.sizeId!,
+                              selectedVariant?.colorId!
+                            )
+                          }
+                        >
+                          {isPending ? (
+                            <Loader className="w-4 h-4  animate-spin" />
+                          ) : (
+                            <Minus className="w-4 h-4" />
+                          )}
+                        </Button>
+                        <span>{item.qty}</span>
+                        <Button
+                          disabled={isPending}
+                          variant="outline"
+                          type="button"
+                          onClick={() => addItem(item)}
+                        >
+                          {isPending ? (
+                            <Loader className="w-4 h-4  animate-spin" />
+                          ) : (
+                            <Plus className="w-4 h-4" />
+                          )}
+                        </Button>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {
+                          sizes.find((s) => s.id === selectedVariant?.sizeId)
+                            ?.label
+                        }
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {
+                          colors.find((c) => c.id === selectedVariant?.colorId)
+                            ?.label
+                        }
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {formatPrice(item.price, {
+                          currency: "BGN",
+                          IntlFormat: "bg-BG",
+                        })}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>

@@ -1,3 +1,4 @@
+import Footer from "@/components/shared/footer";
 import HeroSection from "@/components/shared/hero-section";
 import EcommerceFeatures from "@/components/shared/product/ecommerce-features";
 import ProductList from "@/components/shared/product/product-list";
@@ -31,6 +32,7 @@ export default async function Home() {
         {/* <ProductPromotion deal={featuredProduct} /> */}
         <UserReviews reviews={userReviews.data} />
       </div>
+      <Footer />
     </div>
   );
 }
