@@ -17,18 +17,21 @@ const Footer = () => {
           </div>
           <div className="flex gap-3">
             <Link
+              target="_blank"
               href="https://www.facebook.com"
               className="hover:-translate-y-1 transition-transform duration-200"
             >
               <FaFacebook className="text-blue-600" size={28} />
             </Link>
             <Link
+              target="_blank"
               href="https://www.instagram.com"
               className="hover:-translate-y-1 transition-transform duration-200"
             >
               <FaInstagram className="text-pink-600" size={28} />
             </Link>
             <Link
+              target="_blank"
               href="https://www.youtube.com"
               className="hover:-translate-y-1 transition-transform duration-200"
             >
